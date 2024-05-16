@@ -18,7 +18,7 @@ const MainScreen: React.FC<MainScreenProps> = ({ navigation }) => {
       <Text style={{ textAlign: 'center', marginBottom: 30 }}>O verde mais perto de você do que nunca!</Text>
       <Button
         title="Próximo"
-        onPress={() => navigation.navigate('Login')}
+        onPress={() => navigation.navigate('GardenSelect')}
       />
     </View>
   );

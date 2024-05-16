@@ -13,7 +13,7 @@ type SplashScreenProps = {
 const SplashScreen: React.FC<SplashScreenProps> = ({ navigation }) => {
   useEffect(() => {
     setTimeout(() => {
-      navigation.replace('Home'); // Navigate to the main app screen after animation
+      navigation.replace('Main'); // Navigate to the main app screen after animation
     }, 3000); // Adjust the duration as needed
   }, []);
 

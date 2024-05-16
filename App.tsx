@@ -8,6 +8,8 @@ import SplashScreen from './src/components/SplashScreen';
 import MainScreen from './src/components/MainScreen';
 import LoginScreen from './src/components/LoginScreen';
 import SignupScreen from './src/components/SignupScreen';
+import GardenSelectScreen from './src/components/GardenSelectScreen';
+import GardenCodeScreen from './src/components/GardenCodeScreen';
 
 const Stack = createNativeStackNavigator();
 
@@ -16,9 +18,9 @@ function App() {
     <NavigationContainer>
       <Stack.Navigator initialRouteName="Splash">
         <Stack.Screen name="Splash" component={SplashScreen} />
-        <Stack.Screen name="Home" component={MainScreen} />
-        <Stack.Screen name="Login" component={LoginScreen} />
-        <Stack.Screen name="Signup" component={SignupScreen} />
+        <Stack.Screen name="Main" component={MainScreen} />
+        <Stack.Screen name="GardenSelect" component={GardenSelectScreen} />
+        <Stack.Screen name="GardenCode" component={GardenCodeScreen} />
       </Stack.Navigator>
     </NavigationContainer>
   );

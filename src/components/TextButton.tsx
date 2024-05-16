@@ -18,6 +18,8 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: '#007AFF', // Border color for iOS, can be adjusted
     alignItems: 'center',
+    marginLeft: 20,
+    marginRight: 20
   },
   buttonText: {
     fontSize: 16,
