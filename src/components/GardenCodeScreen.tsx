@@ -12,16 +12,20 @@ type GardenCodeScreenProps = {
 };
 
 const GardenCodeScreen: React.FC<GardenCodeScreenProps> = ({ navigation }) => {
+  var data;
   const [gardenCode, setGardenCode] = useState('');
   const [isSubmit, setIsSubmit] = useState(false);
 
   useEffect(() => {
     const fetchGardenUsingCode = async () => {
       try {
-        const response = await axios.get("http://44.222.84.162/get_measures.php?garden_code=" + gardenCode);
-        console.log(response.data);
+        const response = await axios.get("http://54.225.18.148/get_measures.php?garden_code=" + gardenCode);
+        data = response.data[0];
+        console.log(data);
         setIsSubmit(false);
-        navigation.navigate('GardenPlants', {gardenCode: gardenCode})
+        navigation.navigate('GardenPlants', {gardenCode: gardenCode, lightValue: data.light_value, 
+        firstPlant: data.first_plant, firstPlantTemperatureValue: data.first_plant_temperature_value,
+        firstPlantMoistureValue: data.first_plant_moisture_value})
       } catch (error) {
         if(error.response.status === 404) {
           Alert.alert('Ops!', 'O código inserido não é válido');
