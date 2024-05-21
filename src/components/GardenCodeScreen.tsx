@@ -4,7 +4,6 @@ import React, { useEffect, useState } from 'react';
 import { View, Text, Button, TextInput, StyleSheet, Alert } from 'react-native';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { RootStackParamList } from '../../types'; // Import the RootStackParamList type
-import TextButton from './TextButton';
 import axios from "axios";
 
 type GardenCodeScreenProps = {
@@ -23,9 +22,7 @@ const GardenCodeScreen: React.FC<GardenCodeScreenProps> = ({ navigation }) => {
         data = response.data[0];
         console.log(data);
         setIsSubmit(false);
-        navigation.navigate('GardenPlants', {gardenCode: gardenCode, lightValue: data.light_value, 
-        firstPlant: data.first_plant, firstPlantTemperatureValue: data.first_plant_temperature_value,
-        firstPlantMoistureValue: data.first_plant_moisture_value})
+        navigation.navigate('GardenPlants', {gardenCode: gardenCode })
       } catch (error) {
         if(error.response.status === 404) {
           Alert.alert('Ops!', 'O código inserido não é válido');
