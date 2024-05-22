@@ -11,6 +11,7 @@ import SignupScreen from './src/components/SignupScreen';
 import GardenSelectScreen from './src/components/GardenSelectScreen';
 import GardenCodeScreen from './src/components/GardenCodeScreen';
 import GardenPlantsScreen from './src/components/GardenPlantsScreen';
+import PlantSelectScreen from './src/components/PlantSelectScreen';
 
 const Stack = createNativeStackNavigator();
 
@@ -23,6 +24,7 @@ function App() {
         <Stack.Screen name="GardenSelect" component={GardenSelectScreen} />
         <Stack.Screen name="GardenCode" component={GardenCodeScreen} />
         <Stack.Screen name="GardenPlants" component={GardenPlantsScreen} />
+        <Stack.Screen name="PlantSelect" component={PlantSelectScreen} />
       </Stack.Navigator>
     </NavigationContainer>
   );

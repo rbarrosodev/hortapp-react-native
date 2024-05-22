@@ -22,7 +22,7 @@ const GardenCodeScreen: React.FC<GardenCodeScreenProps> = ({ navigation }) => {
         data = response.data[0];
         console.log(data);
         setIsSubmit(false);
-        navigation.navigate('GardenPlants', {gardenCode: gardenCode })
+        navigation.navigate('GardenPlants', {gardenCode: gardenCode})
       } catch (error) {
         if(error.response.status === 404) {
           Alert.alert('Ops!', 'O código inserido não é válido');

@@ -1,17 +1,27 @@
 import React from 'react';
-import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
+import { View, Text, Image, StyleSheet } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+
+const images = {
+  Alecrim: require('../../assets/Alecrim.png'),
+  Cebolinha: require('../../assets/Cebolinha.png'),
+  Orégano: require('../../assets/Orégano.png'),
+  Salsinha: require('../../assets/Salsinha.png')
+  // Add other images as needed
+};
 
 const PlantComponent = ({ vase_number, plant, light_value, moisture_value, temperature_value }) => {
   return (
     <View style={styles.container}>
       {/* Column 1 */}
       <View style={styles.column}>
-        <TouchableOpacity style={styles.buttonContainer}>
-          <View style={styles.button}>
-            <Text style={styles.plus}>+</Text>
-          </View>
-        </TouchableOpacity>
+      {plant == 'empty' ? (
+      <View style={styles.button}>
+        <Text style={styles.plus}>+</Text>
+      </View>
+      ) : (
+        <Image source={images[plant]} style={styles.image} />
+      )}
       </View>
 
 
@@ -67,6 +77,11 @@ const styles = StyleSheet.create({
     fontSize: 14,
     alignItems: 'center',
     justifyContent: 'center',
+  },
+  image: {
+    width: 80,
+    height: 80,
+    borderRadius: 40,
   },
 });
 

@@ -7,5 +7,7 @@ export type RootStackParamList = {
     Signup: undefined;
     GardenSelect: undefined; 
     GardenCode: undefined;
-    GardenPlants: gardenCode; // Add more screen names and their expected parameters here if needed
+    GardenPlants: gardenCode;
+    PlantComponent: undefined;
+    PlantSelect: undefined; // Add more screen names and their expected parameters here if needed
   };
