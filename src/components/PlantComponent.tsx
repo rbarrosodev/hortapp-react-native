@@ -4,9 +4,16 @@ import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
 const images = {
   Alecrim: require('../../assets/Alecrim.png'),
+  Boldo: require('../../assets/Boldo.png'),
   Cebolinha: require('../../assets/Cebolinha.png'),
+  Coentro: require('../../assets/Coentro.png'),
+  Hortelã: require('../../assets/Hortelã.png'),
+  Manjericão: require('../../assets/Manjericão.png'),
+  Outros: require('../../assets/Outros.png'),
   Orégano: require('../../assets/Orégano.png'),
-  Salsinha: require('../../assets/Salsinha.png')
+  Salsinha: require('../../assets/Salsinha.png'),
+  TomateCereja: require('../../assets/TomateCereja.png'), 
+  Tomilho: require('../../assets/Tomilho.png'), 
   // Add other images as needed
 };
 
@@ -27,7 +34,17 @@ const PlantComponent = ({ vase_number, plant, light_value, moisture_value, tempe
 
       {/* Column 2 */}
       <View style={styles.column}>
-        <Text style={styles.label}>Vaso {vase_number}: {plant}</Text>
+        {plant == 'empty' ? (
+          <Text style={styles.label}>Vaso {vase_number}:</Text>
+        ) : (
+          <Text style={styles.label}>Vaso {vase_number}: {plant[6] == 'C' ? 'Tomate Cereja' : plant}</Text>
+        )}
+
+        {light_value <= 0.0 ? (
+          <Text style={styles.info}><Icon name="weather-sunny" size={20} color="#808080" />Indisponível</Text>
+        ) : (
+          <Text style={styles.info}><Icon name="weather-sunny" size={20} color="#FFFF00" />Luz Média ({light_value})</Text>
+        )}
         <Text style={styles.info}><Icon name="weather-sunny" size={20} color="#FFFF00" />Luz Média ({light_value})</Text>
         <Text style={styles.info}><Icon name="water-outline" size={20} color="#00FF00" />{moisture_value}% de Umidade</Text>
         <Text style={styles.info}><Icon name="thermometer" size={20} color="#00FF00" />{temperature_value}°C</Text>
@@ -45,7 +62,7 @@ const styles = StyleSheet.create({
     borderRadius: 20, // Make it rounded
     borderWidth: 1, // Add border
     borderColor: '#000000', // Border color
-    maxWidth: 300, // Limit the width
+    maxWidth: 325, // Limit the width
     alignSelf: 'center', // Center horizontally
     alignItems: 'center',
     marginTop: 20, // Add margin from the top
@@ -72,6 +89,7 @@ const styles = StyleSheet.create({
   label: {
     fontSize: 16,
     fontWeight: 'bold',
+    textAlign: 'right'
   },
   info: {
     fontSize: 14,

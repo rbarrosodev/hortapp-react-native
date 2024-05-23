@@ -6,6 +6,7 @@ import { StackNavigationProp } from '@react-navigation/stack';
 import { RootStackParamList } from '../../types'; // Import the RootStackParamList type
 import { RouteProp } from '@react-navigation/native';
 import PlantComponent from './PlantComponent';
+import { Picker } from '@react-native-picker/picker';
 import axios from "axios";
 
 
@@ -19,16 +20,18 @@ const GardenPlantsScreen: React.FC<GardenPlantsScreenProps> = ({ route, navigati
     const [loading, setLoading] = useState(true); // State to track loading status
     const [data, setData] = useState<any>(null);
     const [error, setError] = useState(null);
+    const [selectedLuminosity, setSelectedLuminosity] = useState('any');
 
     const plantSelect = (garden_code) => {
-      navigation.navigate('PlantSelect', {gardenCode: garden_code, previousValue: data[0].first_plant})
+      navigation.navigate('PlantSelect', {gardenCode: garden_code, previousValue: data[0].first_plant, 
+                          selectedLuminosity: selectedLuminosity})
+    };
+
+    const handlePlantLuminosityChange = (itemValue) => {
+      setSelectedLuminosity(itemValue);
     };
 
     useEffect(() => {
-      if(updateAlert) {
-        alert('Planta atualizada com sucesso! Aguarde alguns segundos para ver as mudanças.');
-      }
-
       const fetchData = async () => {
         try {
           const response = await axios.get("http://54.225.18.148/get_measures.php?garden_code=" + gardenCode);
@@ -59,14 +62,25 @@ const GardenPlantsScreen: React.FC<GardenPlantsScreenProps> = ({ route, navigati
         ) : error ? (
           <Text>Error: {error}</Text>
         ) : (
-          <View>
+          <View style={styles.container}>
             <Text style={styles.text}>Horta {gardenCode}</Text>
+              <Picker selectedValue={selectedLuminosity} onValueChange={handlePlantLuminosityChange} style={styles.luminosityPicker}>
+                <Picker.Item label="Selecione o nível de luminosidade" value="default" />
+                <Picker.Item label="Qualquer nível" value="any" />
+                <Picker.Item label="Baixo" value="low" />
+                <Picker.Item label="Alto" value="high" />
+              </Picker>
               <TouchableOpacity onPress={() => plantSelect(gardenCode)}>
                 <PlantComponent vase_number={1} plant={data.length > 0 ? data[0].first_plant[0].toUpperCase() + data[0].first_plant.slice(1) : ''}
                 light_value={data.length > 0 ? data[0].light_value : ''} moisture_value={data.length > 0 ? data[0].first_plant_moisture_value : ''} temperature_value={data.length > 0 ? data[0].first_plant_temperature_value : ''}></PlantComponent>
-              {/* Render other UI components based on data */}
               </TouchableOpacity>
-            </View>
+              <TouchableOpacity onPress={() => alert('teste')}>
+                <PlantComponent vase_number={2} plant={'empty'} ></PlantComponent>
+              </TouchableOpacity>
+              <<TouchableOpacity onPress={() => alert('teste')}>
+                <PlantComponent vase_number={3} plant={'empty'}></PlantComponent>
+              </TouchableOpacity>
+          </View>
         )}
       </View>
     );
@@ -77,7 +91,14 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'flex-start',
     alignItems: 'center',
-    marginTop: 20 // Adjust this value to set the distance from the top
+    marginTop: 10, // Adjust this value to set the distance from the top
+  },
+  luminosityPicker: {
+    height: 50,
+    width: 200,
+    backgroundColor: 'white', // Set background color to white
+    color: 'black', 
+    marginBottom: 30,// Set text color to black
   },
   text: {
     textAlign: 'center',

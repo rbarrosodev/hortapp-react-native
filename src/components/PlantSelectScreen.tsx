@@ -1,7 +1,7 @@
 // PlantSelectScreen.tsx
 
 import React, { useState, useEffect } from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import { View, Text, StyleSheet, Alert } from 'react-native';
 import { Picker } from '@react-native-picker/picker';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { RootStackParamList } from '../../types'; // Import the RootStackParamList type
@@ -16,81 +16,104 @@ type PlantSelectScreenProps = {
 
   
   const PlantSelectScreen: React.FC<PlantSelectScreenProps> = ({ route, navigation }) => {
-    const { gardenCode, previousValue } = route.params;
-
-    console.log(gardenCode);
-
+    const { gardenCode, previousValue, selectedLuminosity } = route.params;
+    const [selectedItem, setSelectedItem] = previousValue ? useState(previousValue) : useState('alecrim')
     
-
-    const [selectedValue, setSelectedValue] = useState("Alecrim"); // Default value if previousValue is not "Salsinha"
-
-    useEffect(() => {
-        if (previousValue) {
-            console.log(previousValue[0].toUpperCase() + previousValue.slice(1));
-            setSelectedValue(previousValue[0].toUpperCase() + previousValue.slice(1));
-        }
-    }, [previousValue]);
-
-    const updatePlant = async (itemValue) => {
-        try {
-          setSelectedValue(itemValue);
-          const response = await axios.get("http://54.225.18.148/update_plant.php?garden_id=" + gardenCode + "&first_plant=" + itemValue);
-          console.log(response.data);
-          navigation.navigate('GardenPlants', {gardenCode: gardenCode, updateAlert: true});
-        } catch (error) {
-          console.error('Error fetching data:', error);
-        }
-      };
+    // Function to handle picker value change
+    const handlePickerChange = async (itemValue) => {
+      try {
+        setSelectedItem(itemValue);
+        const response = await axios.get("http://54.225.18.148/update_plant.php?garden_id=" + gardenCode + "&first_plant=" + itemValue);
+        console.log(response.data);
+        Alert.alert('Pronto!', 'Planta atualizada com sucesso! Aguarde alguns segundos para ver as mudanças.');
+        navigation.navigate('GardenPlants', {gardenCode: gardenCode});
+      } catch (error) {
+        console.error('Error fetching data:', error);
+      }
+    };
 
     return (
-        <View style={styles.container}>
+      <View style={styles.container}>
         <Text style={styles.label}>Escolha a planta:</Text>
-        <Picker
-            selectedValue={selectedValue}
-            onValueChange={(itemValue, itemIndex) => {
-                setSelectedValue(itemValue);
-                updatePlant(itemValue);
-            }}>
-            <Picker.Item label="Alecrim" value="alecrim" />
-            <Picker.Item label="Cebolinha" value="cebolinha" />
-            <Picker.Item label="Orégano" value="orégano" />
-            <Picker.Item label="Salsinha" value="salsinha" />
-        </Picker>
-        </View>
+          {selectedLuminosity === 'low' ? (
+            <View style={styles.pickerContainer}>
+              <Picker selectedValue={selectedItem} onValueChange={handlePickerChange} style={styles.picker}>
+                <Picker.Item label="Selecione..." value="default" />
+                <Picker.Item label="Cebolinha" value="cebolinha" />
+                <Picker.Item label="Coentro" value="coentro" />
+                <Picker.Item label="Hortelã" value="hortelã" />
+                <Picker.Item label="Salsinha" value="salsinha" />
+                <Picker.Item label="Tomate Cereja" value="tomateCereja" />
+                <Picker.Item label="Outros" value="outros" />
+              </Picker>
+            </View>
+        ) : selectedLuminosity === 'high' ? (
+            <View style={styles.pickerContainer}>
+              <Picker selectedValue={selectedItem} onValueChange={handlePickerChange} style={styles.picker}>
+                <Picker.Item label="Selecione..." value="default" />
+                <Picker.Item label="Alecrim" value="alecrim" />
+                <Picker.Item label="Boldo" value="boldo" />
+                <Picker.Item label="Manjericão" value="manjericão" />
+                <Picker.Item label="Orégano" value="orégano" />
+                <Picker.Item label="Tomilho" value="tomilho" />
+                <Picker.Item label="Outros" value="outros" />
+              </Picker>
+            </View>
+        ) : (
+          <View style={styles.pickerContainer}>
+            <Picker selectedValue={selectedItem} onValueChange={handlePickerChange} style={styles.picker}>
+              <Picker.Item label="Alecrim" value="alecrim" />
+              <Picker.Item label="Boldo" value="boldo" />
+              <Picker.Item label="Cebolinha" value="cebolinha" />
+              <Picker.Item label="Coentro" value="coentro" />
+              <Picker.Item label="Hortelã" value="hortelã" />
+              <Picker.Item label="Manjericão" value="manjericão" />
+              <Picker.Item label="Orégano" value="orégano" />
+              <Picker.Item label="Salsinha" value="salsinha" />
+              <Picker.Item label="Tomate Cereja" value="tomateCereja" />
+              <Picker.Item label="Tomilho" value="tomilho" />
+              <Picker.Item label="Outros" value="outros" />
+            </Picker>
+          </View>
+        )}
+      </View>
     );
   };
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  text: {
-    textAlign: 'center',
-    fontSize: 20,
-  },
-  firstAccess: {
-    marginBottom: 20
-  },
-  row: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    paddingHorizontal: 20,
-  },
-  leftBtn: {
-    marginRight: 20
-  },
-  label: {
-    fontSize: 18,
-    marginBottom: 10,
-  },
-  picker: {
-    height: 50,
-    width: 200,
-  },
-});
+  const styles = StyleSheet.create({
+    container: {
+      flex: 1,
+      justifyContent: 'center',
+      alignItems: 'center',
+    },
+    label: {
+      fontSize: 18,
+      marginBottom: 10,
+    },
+    pickerContainer: {
+      // Add any styles specific to the container of the Picker component
+    },
+    picker: {
+      height: 50,
+      width: 200,
+    },
+    text: {
+      textAlign: 'center',
+      fontSize: 20,
+    },
+    firstAccess: {
+      marginBottom: 20
+    },
+    row: {
+      flexDirection: 'row',
+      justifyContent: 'space-between',
+      alignItems: 'center',
+      paddingHorizontal: 20,
+    },
+    leftBtn: {
+      marginRight: 20
+    }
+  });
 
 
 export default PlantSelectScreen;
