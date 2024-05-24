@@ -23,8 +23,7 @@ const GardenPlantsScreen: React.FC<GardenPlantsScreenProps> = ({ route, navigati
     const [selectedLuminosity, setSelectedLuminosity] = useState('any');
 
     const plantSelect = (garden_code) => {
-      navigation.navigate('PlantSelect', {gardenCode: garden_code, previousValue: data[0].first_plant, 
-                          selectedLuminosity: selectedLuminosity})
+      navigation.navigate('PlantSelect', {gardenCode: garden_code, previousValue: data[0].first_plant, selectedLuminosity: selectedLuminosity})
     };
 
     const handlePlantLuminosityChange = (itemValue) => {
@@ -54,6 +53,8 @@ const GardenPlantsScreen: React.FC<GardenPlantsScreenProps> = ({ route, navigati
       // Clean up interval to avoid memory leaks
       return () => clearInterval(interval);
     }, []);
+
+    console.log(data);
     
     return (
       <View style={styles.container}>
@@ -73,12 +74,6 @@ const GardenPlantsScreen: React.FC<GardenPlantsScreenProps> = ({ route, navigati
               <TouchableOpacity onPress={() => plantSelect(gardenCode)}>
                 <PlantComponent vase_number={1} plant={data.length > 0 ? data[0].first_plant[0].toUpperCase() + data[0].first_plant.slice(1) : ''}
                 light_value={data.length > 0 ? data[0].light_value : ''} moisture_value={data.length > 0 ? data[0].first_plant_moisture_value : ''} temperature_value={data.length > 0 ? data[0].first_plant_temperature_value : ''}></PlantComponent>
-              </TouchableOpacity>
-              <TouchableOpacity onPress={() => alert('teste')}>
-                <PlantComponent vase_number={2} plant={'empty'} ></PlantComponent>
-              </TouchableOpacity>
-              <<TouchableOpacity onPress={() => alert('teste')}>
-                <PlantComponent vase_number={3} plant={'empty'}></PlantComponent>
               </TouchableOpacity>
           </View>
         )}
