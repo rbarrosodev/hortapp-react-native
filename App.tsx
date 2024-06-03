@@ -24,7 +24,7 @@ function App() {
   return (
     <NavigationContainer>
       <StatusBar backgroundColor="#19240A" barStyle="light-content"/>
-      <Stack.Navigator initialRouteName="Splash">
+      <Stack.Navigator initialRouteName="Main">
         <Stack.Screen name="Splash" component={SplashScreenScreen} options={{ headerShown: false }} />
         <Stack.Screen name="Main" component={MainScreen} options={{ headerShown: false }} />
         <Stack.Screen name="GardenSelect" component={GardenSelectScreen} />
