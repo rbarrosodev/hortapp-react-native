@@ -27,8 +27,9 @@ function App() {
       <Stack.Navigator initialRouteName="Main">
         <Stack.Screen name="Splash" component={SplashScreenScreen} options={{ headerShown: false }} />
         <Stack.Screen name="Main" component={MainScreen} options={{ headerShown: false }} />
+        <Stack.Screen name="Login" component={LoginScreen} options={{ headerShown: false }} />
+        <Stack.Screen name="GardenCode" component={GardenCodeScreen} options={{ headerShown: false }} />
         <Stack.Screen name="GardenSelect" component={GardenSelectScreen} />
-        <Stack.Screen name="GardenCode" component={GardenCodeScreen} />
         <Stack.Screen name="GardenPlants" component={GardenPlantsScreen} />
         <Stack.Screen name="PlantSelect" component={PlantSelectScreen} />
       </Stack.Navigator>

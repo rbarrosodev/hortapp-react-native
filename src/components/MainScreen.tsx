@@ -26,7 +26,7 @@ const MainScreen: React.FC<MainScreenProps> = ({ navigation }) => {
           O verde mais perto de você do que nunca!
           </Text>
 
-          <TouchableOpacity onPress={() => navigation.goBack()} style={styles.nextButton}>
+          <TouchableOpacity onPress={() => navigation.navigate('Login') } style={styles.nextButton}>
             <Text style={styles.nextText}> Próximo  <FontAwesome6 name="arrow-right" size={15} color="#A5EA4F" /></Text>
           </TouchableOpacity>
         </View>

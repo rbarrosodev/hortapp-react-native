@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "311266848901",
+    "project_id": "hortapp-react-native-d7fda",
+    "storage_bucket": "hortapp-react-native-d7fda.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:311266848901:android:aac2b10e899bee5f3c39ec",
+        "android_client_info": {
+          "package_name": "com.hortapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "311266848901-m3915beskgoajjr6jufg6f9lmcjpfh47.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.hortapp",
+            "certificate_hash": "5e8f16062ea3cd2c4a0d547876baa6f38cabf625"
+          }
+        },
+        {
+          "client_id": "311266848901-7aolmkfau36j3geuao1mtoddisgecrbq.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDNl_eK3p2cKosqVAyBLomm_nlpEZrmF88"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "311266848901-7aolmkfau36j3geuao1mtoddisgecrbq.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
