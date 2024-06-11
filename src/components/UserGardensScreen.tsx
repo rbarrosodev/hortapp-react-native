@@ -1,7 +1,7 @@
-// LoginScreen.tsx
+// UserGardensScreen.tsx
 
 import React, { useEffect, useState } from 'react';
-import { View, Text, StyleSheet, Image, ImageBackground, TouchableOpacity } from 'react-native';
+import { View, Text, StyleSheet, Image, ImageBackground, TouchableOpacity, Alert } from 'react-native';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { RootStackParamList } from '../../types'; // Import the RootStackParamList type
 import { GoogleSignin } from "@react-native-google-signin/google-signin";
@@ -10,11 +10,11 @@ import FontAwesome6 from 'react-native-vector-icons/FontAwesome6';
 import axios from "axios";
 
 
-type LoginScreenProps = {
-  navigation: StackNavigationProp<RootStackParamList, 'Login'>;
+type UserGardensScreenProps = {
+  navigation: StackNavigationProp<RootStackParamList, 'UserGardens'>;
 };
 
-const LoginScreen: React.FC<LoginScreenProps> = ({ navigation }) => {
+const UserGardensScreen: React.FC<UserGardensScreenProps> = ({ navigation }) => {
   useEffect(() => {
     GoogleSignin.configure({
       webClientId: '311266848901-7aolmkfau36j3geuao1mtoddisgecrbq.apps.googleusercontent.com',
@@ -63,17 +63,29 @@ const LoginScreen: React.FC<LoginScreenProps> = ({ navigation }) => {
   }
 
   return (
-    <ImageBackground source={require('../../assets/hortapp-main-bg.png')} style={styles.background}>
+    <ImageBackground source={require('../../assets/hortapp-usergarden-bg.png')} style={styles.background}>
       <View style={styles.container}>
-        <Image source={require('../../assets/splash_logo.png')} style={styles.logo} />
+        <View style={styles.rectangle}>
+            <Image source={require('../../assets/hortapp-usergarden-logo.png')} style={styles.headerHortappLogo}/>
+            <Text style={styles.headerHortapp}>HORTAPP</Text>
+        </View>
+        <View style={styles.questionBtn}>
+            <FontAwesome6 name="question" size={20} color="#A5EA4F" style={styles.questionIcon} />
+        </View>
+        <View style={styles.userGardenMenu}>
+            <Text style={styles.menuHeaderTitle}>Hortas Conectadas</Text>
+        </View>
         <View style={styles.footerButtons}>
-          <Text style={styles.signinText}>Acesse sua conta</Text>
-          <View style={styles.rectangle}></View>
-          <TouchableOpacity onPress={() => onGoogleButtonPress()}>
-            <Image source={require('../../assets/google_button.png')} style={styles.googleButton}/>
+          <TouchableOpacity onPress={() => navigation.goBack()} style={styles.homeButton}>
+            <FontAwesome6 name="house" size={24} color="white" />
+            <Text style={styles.homeText}>Início</Text>
           </TouchableOpacity>
-          <TouchableOpacity onPress={() => logoutAccount().then(() => console.log('User signed out!'))} style={styles.nextButton}>
-            <Text style={styles.nextText}> Logout  <FontAwesome6 name="right-from-bracket" size={15} color="#A5EA4F" /></Text>
+          <TouchableOpacity onPress={() => Alert.alert('teste')} style={styles.addGardenButton}>
+            <FontAwesome6 name="plus" size={80} color="white" style={styles.plusIcon}/>
+          </TouchableOpacity>
+          <TouchableOpacity onPress={() => navigation.goBack()} style={styles.profileButton}>
+            <FontAwesome6 name="user" size={24} color="white" />
+            <Text style={styles.homeText}>Perfil</Text>
           </TouchableOpacity>
         </View>
       </View>
@@ -85,6 +97,74 @@ const styles = StyleSheet.create({
   background: {
     flex: 1,
     resizeMode: 'cover', // or 'contain'
+  },
+  questionIcon: {
+    position: 'absolute',
+    left: 5.5,
+    top: 1
+  },
+  plusIcon: {
+    position: 'absolute',
+    alignSelf: 'center',
+    top: 18
+  },
+  addGardenButton: {
+    position: 'absolute',
+    bottom: 70,
+    width: 130,
+    height: 130,
+    borderRadius: 100, // half of the width or height
+    backgroundColor: '#486523',
+    borderColor: '#fff',
+    borderWidth: 5
+  },
+  homeButton: {
+    position: 'absolute',
+    top: 30, // Adjust according to your layout
+    left: 30, // Adjust according to your layout
+    width: 40,
+    height: 40,
+    justifyContent: 'center',
+    alignItems: 'center'
+  },
+  homeText: {
+    color: "#fff",
+    fontFamily: 'Inter-Regular',
+    fontSize: 16,
+    alignSelf: 'center',
+    marginTop: 5
+  },
+  profileButton: {
+    position: 'absolute',
+    top: 30,
+    right: 30,
+    width: 40,
+    height: 40,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  menuHeaderTitle: {
+    color: '#19240A',
+    alignSelf: 'flex-start',
+    marginLeft: 10,
+    fontFamily: 'Inter-SemiBold',
+    fontSize: 18
+  },
+  headerHortappLogo: {
+    position: 'absolute',
+    width: 23.43,
+    height: 28.12,
+    marginLeft: 10,
+    marginTop: 10
+  },
+  headerHortapp: {
+    position: 'absolute',
+    fontFamily: 'BalooExtraBold',
+    color: '#65B307',
+    alignSelf: 'center',
+    fontSize: 30,
+    left: 45,
+    top: 3
   },
   nextButton: {
     position: 'absolute',
@@ -100,13 +180,25 @@ const styles = StyleSheet.create({
   },
   rectangle: {
     position: 'absolute',
-    alignSelf: 'flex-start',
-    top: 50,
-    width: 200,
-    height: 2,
-    backgroundColor: '#84E509',
-    borderRadius: 20,
+    top: 20,
+    left: -10,
+    width: 190,
+    height: 50,
+    backgroundColor: '#E5FFC3',
+    borderRadius: 40,
     marginLeft: 30,
+  },
+  questionBtn: {
+    position: 'absolute',
+    top: 28,
+    right: 20,
+    width: 30,
+    height: 30,
+    backgroundColor: '#E5FFC3',
+    borderRadius: 40,
+    marginLeft: 30,
+    borderColor: '#A5EA4F', 
+    borderWidth: 3
   },
   text: {
     color: 'white',
@@ -118,13 +210,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     position: 'relative' // Optional: overlay to darken the image
   },
-  homeText: {
-    color: "#fff",
-    fontFamily: 'ArialRoundedMTBold',
-    fontSize: 32,
-    alignSelf: 'flex-start',
-    marginLeft: 10
-  },
+  
   signinText: {
     color: "#E5FFC3",
     position: 'absolute',
@@ -169,6 +255,18 @@ const styles = StyleSheet.create({
     position: 'absolute',
     top: 50, // Fix at the top of the container
   },
+  userGardenMenu: {
+    position: 'absolute',
+    width: '100%',
+    backgroundColor: '#fff',
+    padding: 10,
+    borderTopStartRadius: 25,
+    borderTopEndRadius: 25,
+    alignItems: 'center',
+    shadowColor: '#000',
+    height: 700,
+    bottom: 0
+  },
   footerButtons: {
     position: 'absolute',
     width: '100%',
@@ -178,9 +276,9 @@ const styles = StyleSheet.create({
     borderTopEndRadius: 25,
     alignItems: 'center',
     shadowColor: '#000',
-    height: 300,
+    height: 125,
     bottom: 0
   }
 });
 
-export default LoginScreen;
+export default UserGardensScreen;

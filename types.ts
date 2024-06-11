@@ -4,7 +4,8 @@ export type RootStackParamList = {
     Splash: undefined; // No parameters expected for the Splash screen
     Main: undefined; // No parameters expected for the Main screen
     Login: undefined;
-    Signup: undefined;
+    FirstTime: userId;
+    UserGardens: userId;
     GardenSelect: undefined; 
     GardenCode: userId;
     GardenPlants: gardenCode;
