@@ -15,6 +15,7 @@ import PlantSelectScreen from './src/components/PlantSelectScreen';
 import FirstTimeOptionScreen from './src/components/FirstTimeOptionScreen';
 import UserGardensScreen from './src/components/UserGardensScreen';
 import KeepAwake from 'react-native-keep-awake'
+import PlantComponentScreen from './src/components/PlantComponentScreen';
 
 
 const Stack = createNativeStackNavigator();
@@ -39,6 +40,7 @@ function App() {
         <Stack.Screen name="FirstTime" component={FirstTimeOptionScreen} options={{ headerShown: false }} />
         <Stack.Screen name="GardenCode" component={GardenCodeScreen} options={{ headerShown: false }} />
         <Stack.Screen name="UserGardens" component={UserGardensScreen} options={{ headerShown: false }} />
+        <Stack.Screen name="PlantComponent" component={PlantComponentScreen} options={{ headerShown: false }} />
         <Stack.Screen name="GardenSelect" component={GardenSelectScreen} />
         <Stack.Screen name="GardenPlants" component={GardenPlantsScreen} />
         <Stack.Screen name="PlantSelect" component={PlantSelectScreen} />

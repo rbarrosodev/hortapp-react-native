@@ -113,7 +113,7 @@ const UserGardensScreen: React.FC<UserGardensScreenProps> = ({ navigation }) => 
             ) : error ? (
               <Text>Error: {error}</Text>
             ) : (
-            <View style={styles.gardenMeasures}>
+            <TouchableOpacity onPress={() => navigation.navigate('PlantComponent', {plantData: data})} style={styles.gardenMeasures}>
               <Text style={styles.gardenText}>Horta Cozinha 1 - <Text style={styles.gardenLuminosityText}>Alta Luminosidade</Text></Text>
               <View style={styles.measureCircles}>
                 {data !== null ? (
@@ -165,7 +165,7 @@ const UserGardensScreen: React.FC<UserGardensScreenProps> = ({ navigation }) => 
                   )
                 }
               </View>
-            </View>
+            </TouchableOpacity>
           )}
         </View>
         <View style={styles.footerButtons}>

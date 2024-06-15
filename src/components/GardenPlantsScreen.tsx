@@ -5,7 +5,7 @@ import { View, Text, StyleSheet, ActivityIndicator, TouchableOpacity } from 'rea
 import { StackNavigationProp } from '@react-navigation/stack';
 import { RootStackParamList } from '../../types'; // Import the RootStackParamList type
 import { RouteProp } from '@react-navigation/native';
-import PlantComponent from './PlantComponent';
+import PlantComponent from './PlantDisplayComponent';
 import { Picker } from '@react-native-picker/picker';
 import axios from "axios";
 

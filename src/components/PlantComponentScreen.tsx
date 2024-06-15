@@ -1,9 +1,12 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, StyleSheet, Image, ImageBackground, TouchableOpacity } from 'react-native';
+import { View, Text, StyleSheet, Image, ImageBackground, TouchableOpacity, Alert } from 'react-native';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { RootStackParamList } from '../../types'; // Import the RootStackParamList type
+import { RouteProp } from '@react-navigation/native';
 import FontAwesome6 from 'react-native-vector-icons/FontAwesome6';
 import { Picker } from '@react-native-picker/picker';
+import PlantDisplayComponent from './PlantDisplayComponent';
+
 
 const images = {
   Alecrim: require('../../assets/Alecrim.png'),
@@ -20,11 +23,13 @@ const images = {
   // Add other images as needed
 };
 
-type MainScreenProps = {
-  navigation: StackNavigationProp<RootStackParamList, 'Main'>;
+type PlantComponentScreenProps = {
+  navigation: StackNavigationProp<RootStackParamList, 'PlantComponent'>;
+  route: RouteProp<RootStackParamList, 'PlantComponent'>;
 };
 
-const MainScreen: React.FC<MainScreenProps> = ({ navigation }) => {
+const PlantComponentScreen: React.FC<PlantComponentScreenProps> = ({ route, navigation }) => {
+  const { plantData } = route.params;
   const [selectedLuminosity, setSelectedLuminosity] = useState('any');
 
   const handlePlantLuminosityChange = (itemValue) => {
@@ -49,57 +54,9 @@ const MainScreen: React.FC<MainScreenProps> = ({ navigation }) => {
             <Picker.Item label="Alto" value="high" />
           </Picker>
         </View>
-        <View style={styles.firstCard}>
-          <View style={styles.iconContainer}>
-            <Image source={images['Alecrim']} style={styles.icon} />
-          </View>
-          <View style={styles.infoContainer}>
-            <Text style={styles.title}>Vaso 1: <Text style={styles.plantName}>Alecrim</Text></Text>
-            <View style={styles.infoRow}>
-              <Text style={styles.infoText}><FontAwesome6 name="sun" size={16} color="#65B307" /> Luz Baixa (3.000 lumens)</Text>
-            </View>
-            <View style={styles.infoRow}>
-              <Text style={styles.infoText}><FontAwesome6 name="droplet" size={16} color="#65B307" /> 58% de Umidade</Text>
-            </View>
-            <View style={styles.infoRow}>
-              <Text style={styles.infoText}><FontAwesome6 name="temperature-full" size={16} color="#65B307" /> 28°C</Text>
-            </View>
-          </View>
-        </View>
-        <View style={styles.secondCard}>
-          <View style={styles.iconContainer}>
-            <Image source={images['Alecrim']} style={styles.icon} />
-          </View>
-          <View style={styles.infoContainer}>
-            <Text style={styles.title}>Vaso 1: <Text style={styles.plantName}>Alecrim</Text></Text>
-            <View style={styles.infoRow}>
-              <Text style={styles.infoText}><FontAwesome6 name="sun" size={16} color="#65B307" /> Luz Baixa (3.000 lumens)</Text>
-            </View>
-            <View style={styles.infoRow}>
-              <Text style={styles.infoText}><FontAwesome6 name="droplet" size={16} color="#65B307" /> 58% de Umidade</Text>
-            </View>
-            <View style={styles.infoRow}>
-              <Text style={styles.infoText}><FontAwesome6 name="temperature-full" size={16} color="#65B307" /> 28°C</Text>
-            </View>
-          </View>
-        </View>
-        <View style={styles.thirdCard}>
-          <View style={styles.iconContainer}>
-            <Image source={images['Alecrim']} style={styles.icon} />
-          </View>
-          <View style={styles.infoContainer}>
-            <Text style={styles.title}>Vaso 1: <Text style={styles.plantName}>Alecrim</Text></Text>
-            <View style={styles.infoRow}>
-              <Text style={styles.infoText}><FontAwesome6 name="sun" size={16} color="#65B307" /> Luz Baixa (3.000 lumens)</Text>
-            </View>
-            <View style={styles.infoRow}>
-              <Text style={styles.infoText}><FontAwesome6 name="droplet" size={16} color="#65B307" /> 58% de Umidade</Text>
-            </View>
-            <View style={styles.infoRow}>
-              <Text style={styles.infoText}><FontAwesome6 name="temperature-full" size={16} color="#65B307" /> 28°C</Text>
-            </View>
-          </View>
-        </View>
+        <PlantDisplayComponent vase_number={1} plant={plantData.length > 0 ? plantData[0].first_plant[0].toUpperCase() + plantData[0].first_plant.slice(1) : ''}
+            light_value={plantData.length > 0 ? plantData[0].light_value : ''} moisture_value={plantData.length > 0 ? plantData[0].first_plant_moisture_value : ''} temperature_value={plantData.length > 0 ? plantData[0].first_plant_temperature_value : ''}>
+        </PlantDisplayComponent>
 
         <View style={styles.footerButtons}>
           <TouchableOpacity onPress={() => navigation.goBack()} style={styles.homeButton}>
@@ -302,4 +259,4 @@ const styles = StyleSheet.create({
   }
 });
 
-export default MainScreen;
+export default PlantComponentScreen;
