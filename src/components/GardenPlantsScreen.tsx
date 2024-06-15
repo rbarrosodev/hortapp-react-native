@@ -22,11 +22,11 @@ const GardenPlantsScreen: React.FC<GardenPlantsScreenProps> = ({ route, navigati
     const [error, setError] = useState(null);
     const [selectedLuminosity, setSelectedLuminosity] = useState('any');
 
-    const plantSelect = (garden_code) => {
+    const plantSelect = (garden_code: any) => {
       navigation.navigate('PlantSelect', {gardenCode: garden_code, previousValue: data[0].first_plant, selectedLuminosity: selectedLuminosity})
     };
 
-    const handlePlantLuminosityChange = (itemValue) => {
+    const handlePlantLuminosityChange = (itemValue: React.SetStateAction<string>) => {
       setSelectedLuminosity(itemValue);
     };
 

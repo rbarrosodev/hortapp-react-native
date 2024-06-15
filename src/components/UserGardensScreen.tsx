@@ -1,7 +1,7 @@
 // UserGardensScreen.tsx
 
 import React, { useEffect, useState } from 'react';
-import { View, Text, StyleSheet, Image, ImageBackground, TouchableOpacity, Alert } from 'react-native';
+import { View, Text, StyleSheet, Image, ImageBackground, TouchableOpacity, Alert, ActivityIndicator } from 'react-native';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { RootStackParamList } from '../../types'; // Import the RootStackParamList type
 import { GoogleSignin } from "@react-native-google-signin/google-signin";
@@ -9,58 +9,92 @@ import auth from '@react-native-firebase/auth';
 import FontAwesome6 from 'react-native-vector-icons/FontAwesome6';
 import axios from "axios";
 
+const images = {
+  Alecrim: require('../../assets/Alecrim.png'),
+  Boldo: require('../../assets/Boldo.png'),
+  Cebolinha: require('../../assets/Cebolinha.png'),
+  Coentro: require('../../assets/Coentro.png'),
+  Hortelã: require('../../assets/Hortelã.png'),
+  Manjericão: require('../../assets/Manjericão.png'),
+  Outros: require('../../assets/Outros.png'),
+  Orégano: require('../../assets/Orégano.png'),
+  Salsinha: require('../../assets/Salsinha.png'),
+  TomateCereja: require('../../assets/TomateCereja.png'), 
+  Tomilho: require('../../assets/Tomilho.png'), 
+  // Add other images as needed
+};
+
+type PlantData = {
+  Alecrim: { min_temp: number; max_temp: number; min_hum: number; max_hum: number; min_light: number; max_light: number; };
+  Boldo: { min_temp: number; max_temp: number; min_hum: number; max_hum: number; min_light: number; max_light: number; };
+  Cebolinha: { min_temp: number; max_temp: number; min_hum: number; max_hum: number; min_light: number; max_light: number; };
+  Coentro: { min_temp: number; max_temp: number; min_hum: number; max_hum: number; min_light: number; max_light: number; };
+  Hortelã: { min_temp: number; max_temp: number; min_hum: number; max_hum: number; min_light: number; max_light: number; };
+  Manjericão: { min_temp: number; max_temp: number; min_hum: number; max_hum: number; min_light: number; max_light: number; };
+  Outros: { min_temp: number; max_temp: number; min_hum: number; max_hum: number; min_light: number; max_light: number; };
+  Orégano: { min_temp: number; max_temp: number; min_hum: number; max_hum: number; min_light: number; max_light: number; };
+  Salsinha: { min_temp: number; max_temp: number; min_hum: number; max_hum: number; min_light: number; max_light: number; };
+  TomateCereja: { min_temp: number; max_temp: number; min_hum: number; max_hum: number; min_light: number; max_light: number; };
+  Tomilho: { min_temp: number; max_temp: number; min_hum: number; max_hum: number; min_light: number; max_light: number; };
+};
+
+type PlantName = keyof PlantData;
+
+const plants: PlantData = {
+  Alecrim: { min_temp: 18, max_temp: 24, min_hum: 10, max_hum: 90, min_light: 2000, max_light: 3000 },
+  Boldo: { min_temp: 18, max_temp: 24, min_hum: 50, max_hum: 90, min_light: 2000, max_light: 3000 },
+  Cebolinha: { min_temp: 18, max_temp: 24, min_hum: 50, max_hum: 90, min_light: 2000, max_light: 3000 },
+  Coentro: { min_temp: 18, max_temp: 24, min_hum: 40, max_hum: 70, min_light: 1000, max_light: 2000 },
+  Hortelã: { min_temp: 18, max_temp: 24, min_hum: 50, max_hum: 90, min_light: 1000, max_light: 2000 },
+  Manjericão: { min_temp: 20, max_temp: 30, min_hum: 10, max_hum: 90, min_light: 2000, max_light: 3000 },
+  Outros: { min_temp: 20, max_temp: 30, min_hum: 10, max_hum: 90, min_light: 2000, max_light: 3000 },
+  Orégano: { min_temp: 20, max_temp: 30, min_hum: 10, max_hum: 90, min_light: 2000, max_light: 3000 },
+  Salsinha: { min_temp: 20, max_temp: 30, min_hum: 50, max_hum: 90, min_light: 1000, max_light: 2000 },
+  TomateCereja: { min_temp: 21, max_temp: 27, min_hum: 60, max_hum: 70, min_light: 2000, max_light: 3000 },
+  Tomilho: { min_temp: 18, max_temp: 24, min_hum: 10, max_hum: 90, min_light: 2000, max_light: 3000 }
+};
+
+function getPlantData(plantName: PlantName) {
+  return plants[plantName];
+}
+
 
 type UserGardensScreenProps = {
   navigation: StackNavigationProp<RootStackParamList, 'UserGardens'>;
 };
 
 const UserGardensScreen: React.FC<UserGardensScreenProps> = ({ navigation }) => {
+  const [loading, setLoading] = useState(true); // State to track loading status
+  const [data, setData] = useState<any>(null);
+  const [error, setError] = useState(null);
+
   useEffect(() => {
-    GoogleSignin.configure({
-      webClientId: '311266848901-7aolmkfau36j3geuao1mtoddisgecrbq.apps.googleusercontent.com',
-    });
-  }, [])
-
-  async function checkUserGardens(userId) {
-    try {
-      const response = await axios.get("http://100.28.235.107/check_user_gardens.php?user_id=" + userId);
-      console.log('Response Code:', response.status);
-      navigation.navigate('UserGardens', {userId: userId});
-    } catch (error) {
-      if(error.response.status === 404) {
-        console.log('Error:', error);
-        navigation.navigate('FirstTime', {userId: userId})
+    const fetchData = async () => {
+      try {
+        console.log('Component has mounted');
+        const response = await axios.get("http://100.28.235.107/get_measures.php?garden_code=FD2B599CF8E87030");
+        setData(response.data);
+        setLoading(false); // Set loading to false once data is received
+        setError(null);
+      } catch (error) {
+        console.error('Error fetching data:', error);
+        setError(error.message); // Set error message state
+        setLoading(false); // Set loading to false in case of error
       }
-    }
-  };
+    };
 
-  async function onGoogleButtonPress() {
-    try {
-    // Check if your device supports Google Play
-      await GoogleSignin.hasPlayServices({ showPlayServicesUpdateDialog: true });
-      // Get the users ID token
-      const { idToken, user } = await GoogleSignin.signIn();
-    
-      // Create a Google credential with the token
-      const googleCredential = auth.GoogleAuthProvider.credential(idToken);
-    
-      // Sign-in the user with the credential
-      auth().signInWithCredential(googleCredential);
+    // Initial data fetch
+    fetchData();
 
-      checkUserGardens(user.id);
-    } catch (error) {
-      console.log(error);
-    }
-  }
+    // Fetch data every 10 seconds
+    const interval = setInterval(fetchData, 10000);
 
-  async function logoutAccount() {
-    try {
-      GoogleSignin.revokeAccess()
-      return auth().signOut();
-    } catch (error) {
-      console.log(error);
-    }
-  }
+    // Clean up interval to avoid memory leaks
+    return () => clearInterval(interval);
+  }, []);
+
+  console.log(data);
+
 
   return (
     <ImageBackground source={require('../../assets/hortapp-usergarden-bg.png')} style={styles.background}>
@@ -74,6 +108,65 @@ const UserGardensScreen: React.FC<UserGardensScreenProps> = ({ navigation }) => 
         </View>
         <View style={styles.userGardenMenu}>
             <Text style={styles.menuHeaderTitle}>Hortas Conectadas</Text>
+            {loading ? (
+              <ActivityIndicator size="large" color="#0000ff" /> // Show spinner when loading
+            ) : error ? (
+              <Text>Error: {error}</Text>
+            ) : (
+            <View style={styles.gardenMeasures}>
+              <Text style={styles.gardenText}>Horta Cozinha 1 - <Text style={styles.gardenLuminosityText}>Alta Luminosidade</Text></Text>
+              <View style={styles.measureCircles}>
+                {data !== null ? (
+                    <>
+                    <Image source={images[data[0].first_plant[0].toUpperCase() + data[0].first_plant.slice(1)]} style={styles.image} />
+                    <View style={styles.plantOneMeasures}>
+                      {data[0].light_value <= 0.0 || data[0].light_value == "" ? (
+                        <Text><FontAwesome6 name="sun" size={16} color="#808080" /> Indisponível</Text>
+                      ) : data[0].light_value < getPlantData(data[0].first_plant[0].toUpperCase() + data[0].first_plant.slice(1)).min_light ? (
+                        <Text><FontAwesome6 name="sun" size={16} color="#FF0000" /> Baixa</Text>
+                      ) : data[0].light_value > getPlantData(data[0].first_plant[0].toUpperCase() + data[0].first_plant.slice(1)).max_light ? (
+                        <Text><FontAwesome6 name="sun" size={16} color="#FF0000" /> Alta</Text>
+                      ) : (
+                        <Text><FontAwesome6 name="sun" size={16} color="#00FF00" /> Ideal</Text>
+                      )}
+
+                      {data[0].first_plant_moisture_value <= 0.0 || data[0].first_plant_moisture_value == "" ? (
+                        <Text><FontAwesome6 name="droplet" size={16} color="#808080" /> Indisponível</Text>
+                      ) : data[0].first_plant_moisture_value < getPlantData(data[0].first_plant[0].toUpperCase() + data[0].first_plant.slice(1)).min_hum ? (
+                        <Text><FontAwesome6 name="droplet" size={16} color="#FF0000" /> Baixa</Text>
+                      ) : data[0].first_plant_moisture_value > getPlantData(data[0].first_plant[0].toUpperCase() + data[0].first_plant.slice(1)).max_hum ? (
+                        <Text><FontAwesome6 name="droplet" size={16} color="#FF0000" /> Alta</Text>
+                      ) : (
+                        <Text><FontAwesome6 name="droplet" size={16} color="#00FF00" /> Ideal</Text>
+                      )}
+
+                      {data[0].first_plant_temperature_value <= 0.0 || data[0].first_plant_temperature_value == "" ? (
+                        <Text><FontAwesome6 name="temperature-full" size={16} color="#808080" /> Indisponível</Text>
+                      ) : data[0].first_plant_temperature_value < getPlantData(data[0].first_plant[0].toUpperCase() + data[0].first_plant.slice(1)).min_temp ? (
+                        <Text><FontAwesome6 name="temperature-full" size={16} color="#FF0000" /> Baixa</Text>
+                      ) : data[0].first_plant_temperature_value > getPlantData(data[0].first_plant[0].toUpperCase() + data[0].first_plant.slice(1)).max_temp ? (
+                        <Text><FontAwesome6 name="temperature-full" size={16} color="#FF0000" /> Alta</Text>
+                      ) : (
+                        <Text><FontAwesome6 name="temperature-full" size={16} color="#00FF00" /> Ideal</Text>
+                      )}
+                    </View>
+                    </>
+                  ) : (
+                    <>
+                    <View style={styles.plantCircleOne}>
+                      <FontAwesome6 name="plus" size={40} color="white" style={styles.plusIconGardenCircle} />
+                    </View>
+                    <View style={styles.plantOneMeasures}>
+                      <Text><FontAwesome6 name="sun" size={16} color="#808080" /> Indisponível</Text>
+                      <Text><FontAwesome6 name="droplet" size={16} color="#808080" /> Indisponível</Text>
+                      <Text><FontAwesome6 name="temperature-full" size={16} color="#808080" /> Indisponível</Text>
+                    </View>
+                    </>
+                  )
+                }
+              </View>
+            </View>
+          )}
         </View>
         <View style={styles.footerButtons}>
           <TouchableOpacity onPress={() => navigation.goBack()} style={styles.homeButton}>
@@ -107,6 +200,16 @@ const styles = StyleSheet.create({
     position: 'absolute',
     alignSelf: 'center',
     top: 18
+  },
+  plusIconGardenCircle: {
+    position: 'absolute',
+    alignSelf: 'center',
+    top: 7
+  },
+  image: {
+    width: 60,
+    height: 60,
+    borderRadius: 40,
   },
   addGardenButton: {
     position: 'absolute',
@@ -177,6 +280,74 @@ const styles = StyleSheet.create({
     borderColor: '#A5EA4F', 
     borderWidth: 2,// Change this to match your design
     borderRadius: 20,
+  },
+  measureCircles: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  plantCircleOne: {
+    width: 65,
+    height: 65,
+    borderRadius: 100, // half of the width or height
+    backgroundColor: '#808080',
+    borderWidth: 4,
+    borderColor: '#B4B4B4',
+  },
+  plantOneMeasures: {
+    marginLeft: 5,
+  },
+  plantCircleTwo: {
+    width: 65,
+    height: 65,
+    borderRadius: 100, // half of the width or height
+    backgroundColor: '#808080',
+    alignItems: 'center',
+    alignSelf: 'center',
+    borderWidth: 4,
+    borderColor: '#B4B4B4'
+  },
+  plantTwoMeasures: {
+    position: 'absolute',
+    left: 85
+  },
+  plantCircleThree: {
+    position: 'absolute',
+    right: 15,
+    width: 65,
+    height: 65,
+    borderRadius: 100, // half of the width or height
+    backgroundColor: '#808080',
+    alignItems: 'flex-end',
+    alignSelf: 'flex-end',
+    borderWidth: 4,
+    borderColor: '#B4B4B4'
+  },
+  plantThreeMeasures: {
+    position: 'absolute',
+    right: 85
+  },
+  gardenMeasures: {
+    position: 'absolute',
+    alignSelf: 'center',
+    marginTop: 50,
+    width: '100%',
+    height: 100,
+    borderColor: '#B4B4B4',
+    borderWidth: 0.5,
+    borderRadius: 10,
+    marginLeft: 30,
+  },
+  gardenText: {
+    color: '#3B6603',
+    fontFamily: 'Inter-Medium',
+    fontSize: 20,
+    alignSelf: 'center'
+  },
+  gardenLuminosityText: {
+    color: '#3B6603',
+    fontFamily: 'Inter-Medium',
+    fontSize: 14
   },
   rectangle: {
     position: 'absolute',
