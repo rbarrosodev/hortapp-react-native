@@ -29,7 +29,7 @@ type PlantComponentScreenProps = {
 };
 
 const PlantComponentScreen: React.FC<PlantComponentScreenProps> = ({ route, navigation }) => {
-  const { plantData } = route.params;
+  const { plantData, gardenCode, userId } = route.params;
   const [selectedLuminosity, setSelectedLuminosity] = useState('any');
 
   const handlePlantLuminosityChange = (itemValue) => {
@@ -54,12 +54,14 @@ const PlantComponentScreen: React.FC<PlantComponentScreenProps> = ({ route, navi
             <Picker.Item label="Alto" value="high" />
           </Picker>
         </View>
-        <PlantDisplayComponent vase_number={1} plant={plantData.length > 0 ? plantData[0].first_plant[0].toUpperCase() + plantData[0].first_plant.slice(1) : ''}
-            light_value={plantData.length > 0 ? plantData[0].light_value : ''} moisture_value={plantData.length > 0 ? plantData[0].first_plant_moisture_value : ''} temperature_value={plantData.length > 0 ? plantData[0].first_plant_temperature_value : ''}>
-        </PlantDisplayComponent>
+        <TouchableOpacity onPress={() => navigation.navigate('PlantSelect', {gardenCode: gardenCode, previousValue: plantData[0].first_plant, selectedLuminosity: selectedLuminosity, userId: userId})} style={styles.plantDisplayComponent}>
+          <PlantDisplayComponent vase_number={1} plant={plantData.length > 0 ? plantData[0].first_plant[0].toUpperCase() + plantData[0].first_plant.slice(1) : ''}
+                light_value={plantData.length > 0 ? plantData[0].light_value : ''} moisture_value={plantData.length > 0 ? plantData[0].first_plant_moisture_value : ''} temperature_value={plantData.length > 0 ? plantData[0].first_plant_temperature_value : ''}>
+          </PlantDisplayComponent>
+        </TouchableOpacity>
 
         <View style={styles.footerButtons}>
-          <TouchableOpacity onPress={() => navigation.goBack()} style={styles.homeButton}>
+          <TouchableOpacity onPress={() => navigation.navigate('UserGardens', {userId: userId})} style={styles.homeButton}>
             <FontAwesome6 name="house" size={24} color="white" />
             <Text style={styles.homeText}>Início</Text>
           </TouchableOpacity>
@@ -77,6 +79,11 @@ const styles = StyleSheet.create({
   background: {
     flex: 1,
     resizeMode: 'cover', // or 'contain'
+  },
+  plantDisplayComponent: {
+    position: 'absolute',
+    width: '100%',
+    top: 0
   },
   container: {
     flex: 1,

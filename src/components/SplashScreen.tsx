@@ -12,6 +12,37 @@ type SplashScreenProps = {
 
 
 const SplashScreenScreen: React.FC<SplashScreenProps> = ({ navigation }) => {
+  useEffect(() => {
+    // Simulate a loading task or delay
+    const timer = setTimeout(() => {
+      navigation.replace('Main');
+    }, 4200); // 3 seconds delay
+
+    return () => clearTimeout(timer); // Clean up the timer
+  }, [navigation]);
+
+  const customAnimation = {
+    0: { opacity: 0, translateY: -50 },
+    0.5: { opacity: 1, translateY: 0 },
+    1: { opacity: 0, translateY: 50 },
+  };
+  
+  const animatableRef = useRef<Animatable.AnimatableComponent<any, any>>(null);
+
+
+  const handleAnimationEnd = () => {
+    // Trigger the next animation
+    animatableRef.current?.animate(
+      {
+        0: { translateY: -700, scaleX: 1, scaleY: 1 },
+        1: { translateY: -950, scaleX: 0.5, scaleY: 0.5 },
+      },
+      2000,
+      'linear'
+    );
+  };
+
+
   return (
     <View style={styles.container}>
       <Animatable.Image
@@ -25,14 +56,16 @@ const SplashScreenScreen: React.FC<SplashScreenProps> = ({ navigation }) => {
         style={styles.image}
       />
       <Animatable.Image
+        ref={animatableRef}
         animation={{
-          from: { translateY: 0 },
-          to: { translateY: -700 },
+          from: { translateY: 0, scaleX: 1, scaleY: 1 },
+          to: { translateY: -700, scaleX: 1, scaleY: 1 },
         }}
         duration={2000}
         easing="linear"
         source={require('../../assets/splash_logo.png')}
         style={styles.imageLogo}
+        onAnimationEnd={handleAnimationEnd}
       />
     </View>
   );
@@ -50,8 +83,8 @@ const styles = StyleSheet.create({
     height: 1400  // Adjust as needed
   },
   imageLogo: {
-    width: 200,
-    height: 200  // Adjust as needed
+    width: 400,
+    height: 400  // Adjust as needed
   }
 });
 

@@ -55,10 +55,6 @@ function getPlantData(plantName: PlantName) {
 const PlantDisplayComponent = ({ vase_number, plant, light_value, moisture_value, temperature_value }) => {
   const plantData = getPlantData(plant);
 
-  <Text style={styles.title}>Vaso {vase_number}: 
-          <Text style={styles.plantName}> {plant}</Text>
-        </Text>
-
   return (
     <View style={styles.firstCard}>
       <View style={styles.iconContainer}>

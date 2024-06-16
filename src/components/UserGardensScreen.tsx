@@ -8,6 +8,7 @@ import { GoogleSignin } from "@react-native-google-signin/google-signin";
 import auth from '@react-native-firebase/auth';
 import FontAwesome6 from 'react-native-vector-icons/FontAwesome6';
 import axios from "axios";
+import { RouteProp } from '@react-navigation/native';
 
 const images = {
   Alecrim: require('../../assets/Alecrim.png'),
@@ -61,9 +62,11 @@ function getPlantData(plantName: PlantName) {
 
 type UserGardensScreenProps = {
   navigation: StackNavigationProp<RootStackParamList, 'UserGardens'>;
+  route: RouteProp<RootStackParamList, 'UserGardens'>;
 };
 
-const UserGardensScreen: React.FC<UserGardensScreenProps> = ({ navigation }) => {
+const UserGardensScreen: React.FC<UserGardensScreenProps> = ({ route, navigation }) => {
+  const { userId } = route.params;
   const [loading, setLoading] = useState(true); // State to track loading status
   const [data, setData] = useState<any>(null);
   const [error, setError] = useState(null);
@@ -87,7 +90,7 @@ const UserGardensScreen: React.FC<UserGardensScreenProps> = ({ navigation }) => 
     fetchData();
 
     // Fetch data every 10 seconds
-    const interval = setInterval(fetchData, 10000);
+    const interval = setInterval(fetchData, 100000000);
 
     // Clean up interval to avoid memory leaks
     return () => clearInterval(interval);
@@ -113,7 +116,7 @@ const UserGardensScreen: React.FC<UserGardensScreenProps> = ({ navigation }) => 
             ) : error ? (
               <Text>Error: {error}</Text>
             ) : (
-            <TouchableOpacity onPress={() => navigation.navigate('PlantComponent', {plantData: data})} style={styles.gardenMeasures}>
+            <TouchableOpacity onPress={() => navigation.navigate('PlantComponent', {plantData: data, gardenCode: 'FD2B599CF8E87030', userId: userId})} style={styles.gardenMeasures}>
               <Text style={styles.gardenText}>Horta Cozinha 1 - <Text style={styles.gardenLuminosityText}>Alta Luminosidade</Text></Text>
               <View style={styles.measureCircles}>
                 {data !== null ? (
@@ -169,12 +172,12 @@ const UserGardensScreen: React.FC<UserGardensScreenProps> = ({ navigation }) => 
           )}
         </View>
         <View style={styles.footerButtons}>
-          <TouchableOpacity onPress={() => navigation.goBack()} style={styles.homeButton}>
+          <TouchableOpacity onPress={() => navigation.navigate('UserGardens', {userId: userId})} style={styles.homeButton}>
             <FontAwesome6 name="house" size={24} color="white" />
             <Text style={styles.homeText}>Início</Text>
           </TouchableOpacity>
-          <TouchableOpacity onPress={() => Alert.alert('teste')} style={styles.addGardenButton}>
-            <FontAwesome6 name="plus" size={80} color="white" style={styles.plusIcon}/>
+          <TouchableOpacity onPress={() => navigation.navigate('GardenCode', {userId: userId})} style={styles.addGardenButton}>
+            <FontAwesome6 name="plus" size={40} color="white" style={styles.plusIcon}/>
           </TouchableOpacity>
           <TouchableOpacity onPress={() => navigation.goBack()} style={styles.profileButton}>
             <FontAwesome6 name="user" size={24} color="white" />
@@ -199,7 +202,7 @@ const styles = StyleSheet.create({
   plusIcon: {
     position: 'absolute',
     alignSelf: 'center',
-    top: 18
+    top: 15
   },
   plusIconGardenCircle: {
     position: 'absolute',
@@ -213,9 +216,9 @@ const styles = StyleSheet.create({
   },
   addGardenButton: {
     position: 'absolute',
-    bottom: 70,
-    width: 130,
-    height: 130,
+    bottom: 50,
+    width: 80,
+    height: 80,
     borderRadius: 100, // half of the width or height
     backgroundColor: '#486523',
     borderColor: '#fff',
@@ -447,7 +450,7 @@ const styles = StyleSheet.create({
     borderTopEndRadius: 25,
     alignItems: 'center',
     shadowColor: '#000',
-    height: 125,
+    height: 80,
     bottom: 0
   }
 });

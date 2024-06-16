@@ -33,7 +33,7 @@ function App() {
   return (
     <NavigationContainer>
       <StatusBar backgroundColor="#19240A" barStyle="light-content"/>
-      <Stack.Navigator initialRouteName="Main">
+      <Stack.Navigator initialRouteName="Splash">
         <Stack.Screen name="Splash" component={SplashScreenScreen} options={{ headerShown: false }} />
         <Stack.Screen name="Main" component={MainScreen} options={{ headerShown: false }} />
         <Stack.Screen name="Login" component={LoginScreen} options={{ headerShown: false }} />
@@ -41,9 +41,7 @@ function App() {
         <Stack.Screen name="GardenCode" component={GardenCodeScreen} options={{ headerShown: false }} />
         <Stack.Screen name="UserGardens" component={UserGardensScreen} options={{ headerShown: false }} />
         <Stack.Screen name="PlantComponent" component={PlantComponentScreen} options={{ headerShown: false }} />
-        <Stack.Screen name="GardenSelect" component={GardenSelectScreen} />
-        <Stack.Screen name="GardenPlants" component={GardenPlantsScreen} />
-        <Stack.Screen name="PlantSelect" component={PlantSelectScreen} />
+        <Stack.Screen name="PlantSelect" component={PlantSelectScreen} options={{ headerShown: false }} />
       </Stack.Navigator>
     </NavigationContainer>
   );
