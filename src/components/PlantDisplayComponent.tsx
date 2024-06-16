@@ -36,7 +36,7 @@ type PlantName = keyof PlantData;
 const plants: PlantData = {
   Alecrim: { min_temp: 18, max_temp: 24, min_hum: 10, max_hum: 90, min_light: 2000, max_light: 3000 },
   Boldo: { min_temp: 18, max_temp: 24, min_hum: 50, max_hum: 90, min_light: 2000, max_light: 3000 },
-  Cebolinha: { min_temp: 18, max_temp: 24, min_hum: 50, max_hum: 90, min_light: 2000, max_light: 3000 },
+  Cebolinha: { min_temp: 18, max_temp: 25, min_hum: 50, max_hum: 90, min_light: 2000, max_light: 3000 },
   Coentro: { min_temp: 18, max_temp: 24, min_hum: 40, max_hum: 70, min_light: 1000, max_light: 2000 },
   Hortelã: { min_temp: 18, max_temp: 24, min_hum: 50, max_hum: 90, min_light: 1000, max_light: 2000 },
   Manjericão: { min_temp: 20, max_temp: 30, min_hum: 10, max_hum: 90, min_light: 2000, max_light: 3000 },
@@ -75,16 +75,26 @@ const PlantDisplayComponent = ({ vase_number, plant, light_value, moisture_value
           ) : light_value > plantData.max_light ? (
             <Text style={styles.infoText}><FontAwesome6 name="sun" size={16} color="#FF0000" /> Luz Alta ({light_value}) </Text>
           ) : (
-            <Text style={styles.infoText}><FontAwesome6 name="sun" size={16} color="#00FF00" /> Luz Ideal ({light_value}) </Text>
+            <>
+            <Text style={styles.sunIcon}>
+              <FontAwesome6 name="sun" size={16} color="#3B6603" />
+            </Text>
+            <Text style={styles.sunText}>Luz Ideal ({light_value})</Text>
+            </>
           )}
         </View>
         <View style={styles.infoRow}>
           {moisture_value <= 0.0 || moisture_value == "" ? (
-            <Text style={styles.infoText}><FontAwesome6 name="sun" size={16} color="#808080" /> Indisponível</Text>
+            <Text style={styles.infoText}><FontAwesome6 name="droplet" size={16} color="#808080" /> Indisponível</Text>
           ) : moisture_value < plantData.min_hum || moisture_value > plantData.max_hum ? (
-            <Text style={styles.infoText}><FontAwesome6 name="sun" size={16} color="#FF0000" /> {moisture_value}% de Umidade </Text>
+            <Text style={styles.infoText}><FontAwesome6 name="droplet" size={16} color="#FF0000" /> {moisture_value}% de Umidade </Text>
           ) : (
-            <Text style={styles.infoText}><FontAwesome6 name="sun" size={16} color="#00FF00" /> {moisture_value}% de Umidade </Text>
+            <>
+            <Text style={styles.waterIcon}>
+              <FontAwesome6 name="droplet" size={16} color="#3B6603" />
+            </Text>
+            <Text style={styles.waterText}>{moisture_value}% de Umidade</Text>
+            </>
           )}
         </View>
         <View style={styles.infoRow}>
@@ -93,7 +103,12 @@ const PlantDisplayComponent = ({ vase_number, plant, light_value, moisture_value
           ) : temperature_value < plantData.min_temp || temperature_value > plantData.max_temp ? (
             <Text style={styles.infoText}><FontAwesome6 name="temperature-full" size={16} color="#FF0000" /> {temperature_value}°C</Text>
           ) : (
-            <Text style={styles.infoText}><FontAwesome6 name="temperature-full" size={16} color="#00FF00" /> {temperature_value}°C</Text>
+            <>
+            <Text style={styles.temperatureIcon}>
+              <FontAwesome6 name="temperature-full" size={16} color="#3B6603" />
+            </Text>
+            <Text style={styles.temperatureText}>{temperature_value}°C</Text>
+            </>
           )}
         </View>
       </View>
@@ -105,6 +120,44 @@ const styles = StyleSheet.create({
   background: {
     flex: 1,
     resizeMode: 'cover', // or 'contain'
+  },
+  sunIcon: {
+    alignItems: 'center',
+    alignSelf: 'flex-start',
+    marginLeft: 17
+  },
+  sunText: {
+    position: 'absolute',
+    left: 40,
+    top: -3,
+    fontSize: 14,
+    color: '#333',
+  },
+  waterIcon: {
+    alignItems: 'center',
+    alignSelf: 'flex-start',
+    marginTop: 4,
+    marginBottom: 4,
+    marginLeft: 19
+  },
+  waterText: {
+    position: 'absolute',
+    left: 40,
+    top: 1,
+    fontSize: 14,
+    color: '#333',
+  },
+  temperatureIcon: {
+    alignItems: 'center',
+    alignSelf: 'flex-start',
+    marginLeft: 19
+  },
+  temperatureText: {
+    position: 'absolute',
+    left: 40,
+    top: -2,
+    fontSize: 14,
+    color: '#333',
   },
   container: {
     flex: 1,
