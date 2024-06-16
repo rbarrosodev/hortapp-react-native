@@ -3,12 +3,75 @@ import { View, Text, StyleSheet, Image, ImageBackground, TouchableOpacity } from
 import { StackNavigationProp } from '@react-navigation/stack';
 import { RootStackParamList } from '../../types'; // Import the RootStackParamList type
 import FontAwesome6 from 'react-native-vector-icons/FontAwesome6';
+import {PermissionsAndroid} from 'react-native';
+import messaging from '@react-native-firebase/messaging';
 
 type MainScreenProps = {
   navigation: StackNavigationProp<RootStackParamList, 'Main'>;
 };
 
 const MainScreen: React.FC<MainScreenProps> = ({ navigation }) => {
+  async function requestUserOldPermission() {
+    try {
+      const authStatus = await messaging().requestPermission();
+      const enabled =
+        authStatus === messaging.AuthorizationStatus.AUTHORIZED ||
+        authStatus === messaging.AuthorizationStatus.PROVISIONAL;
+  
+      if (enabled) {
+        console.log('Authorization status:', authStatus);
+  
+        // Retrieve the device token
+        const token = await messaging().getToken();
+        console.log('Device Token:', token);
+        
+        // Listen for token refreshes
+        messaging().onTokenRefresh(newToken => {
+          console.log('Refreshed Device Token:', newToken);
+          // Use newToken or send it to your server
+        });
+      } else {
+        console.log('Permission denied');
+      }
+    } catch (error) {
+      console.log('Permission request rejected:', error);
+    }
+  }
+
+  async function requestUserPermission() {
+    try {
+      const granted = await PermissionsAndroid.request(
+        PermissionsAndroid.PERMISSIONS.POST_NOTIFICATIONS,
+        {
+          title: 'O HortApp precisa de sua autorização',
+          message:
+            'Para que você receba notificações sobre o status de suas plantas, é necessário que você permita receber notificações.',
+          buttonNeutral: 'Me pergunte depois',
+          buttonNegative: 'Cancelar',
+          buttonPositive: 'Aceitar',
+        },
+      );
+      if (granted === PermissionsAndroid.RESULTS.GRANTED) {
+        console.log('Notificações habilitadas');
+      } else {
+        console.log('Notificações proibidas');
+      }
+    } catch (err) {
+      console.warn(err);
+    }
+  };
+
+  const getToken = async() => {
+    const token = await messaging().getToken()
+    console.log("Token = ", token)
+  }
+
+  useEffect(() => {
+    requestUserOldPermission()
+    requestUserPermission()
+    getToken()
+  }, [])
+
   return (
     <ImageBackground source={require('../../assets/hortapp-main-bg.png')} style={styles.background}>
       <View style={styles.container}>

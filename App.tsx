@@ -8,9 +8,7 @@ import changeNavigationBarColor from 'react-native-navigation-bar-color';
 import SplashScreenScreen from './src/components/SplashScreen';
 import MainScreen from './src/components/MainScreen';
 import LoginScreen from './src/components/LoginScreen';
-import GardenSelectScreen from './src/components/GardenSelectScreen';
 import GardenCodeScreen from './src/components/GardenCodeScreen';
-import GardenPlantsScreen from './src/components/GardenPlantsScreen';
 import PlantSelectScreen from './src/components/PlantSelectScreen';
 import FirstTimeOptionScreen from './src/components/FirstTimeOptionScreen';
 import UserGardensScreen from './src/components/UserGardensScreen';
@@ -18,10 +16,12 @@ import KeepAwake from 'react-native-keep-awake'
 import PlantComponentScreen from './src/components/PlantComponentScreen';
 
 
+
 const Stack = createNativeStackNavigator();
 
+
 function App() {
-  React.useEffect(() => {
+  useEffect(() =>{
     KeepAwake.activate();
     return () => KeepAwake.deactivate();
   }, []);
