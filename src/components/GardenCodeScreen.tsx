@@ -1,16 +1,20 @@
 // GardenCodeScreen.tsx
 
 import React, { useEffect, useState } from 'react';
-import { View, Text, Button, TextInput, StyleSheet, Alert } from 'react-native';
+import { View, Text, Button, TextInput, StyleSheet, Alert, ImageBackground, Image, TouchableOpacity } from 'react-native';
 import { StackNavigationProp } from '@react-navigation/stack';
+import { RouteProp } from '@react-navigation/native';
 import { RootStackParamList } from '../../types'; // Import the RootStackParamList type
 import axios from "axios";
+import FontAwesome6 from 'react-native-vector-icons/FontAwesome6';
 
 type GardenCodeScreenProps = {
   navigation: StackNavigationProp<RootStackParamList, 'GardenCode'>;
+  route: RouteProp<RootStackParamList, 'GardenCode'>;
 };
 
-const GardenCodeScreen: React.FC<GardenCodeScreenProps> = ({ navigation }) => {
+const GardenCodeScreen: React.FC<GardenCodeScreenProps> = ({ route, navigation }) => {
+  const { userId } = route.params;
   var data;
   const [gardenCode, setGardenCode] = useState('');
   const [isSubmit, setIsSubmit] = useState(false);
@@ -43,44 +47,146 @@ const GardenCodeScreen: React.FC<GardenCodeScreenProps> = ({ navigation }) => {
   };
 
   return (
-    <View style={styles.container}>
-      <Text style={styles.bigText}>Insira o código</Text>
-      <Text style={styles.text}>Insira o código de registro da sua horta</Text>
-      <TextInput placeholder="Insira aqui o código" style={styles.input} autoCapitalize='none' onChangeText={(text) => setGardenCode(text)} />
-      <View style={styles.buttonContainer}>
-            <Button title="Seguir" onPress={handleSubmit} />
+    <ImageBackground source={require('../../assets/hortapp-main-bg.png')} style={styles.background}>
+      <View style={styles.container}>
+        <Image source={require('../../assets/splash_logo.png')} style={styles.logo} />
+        <View style={styles.footerButtons}>
+          <Text style={styles.enterCodeText}>Insira o código</Text>
+          <View style={styles.rectangle}></View>
+          <Text style={styles.enterCodeDesc}>Insira o código de registro da sua horta</Text>
+          <TextInput placeholder="Insira aqui" style={styles.codeInput} autoCapitalize='none' onChangeText={(text) => setGardenCode(text)} />
+          <TouchableOpacity onPress={() => handleSubmit()} style={styles.nextButton}>
+            <Text style={styles.nextText}>Seguir</Text>
+          </TouchableOpacity>
+          <Text style={styles.codeNotFound}>Não sei onde está meu código</Text>
         </View>
-    </View>
+      </View>
+    </ImageBackground>
   );
 };
 
 const styles = StyleSheet.create({
+  background: {
+    flex: 1,
+    resizeMode: 'cover', // or 'contain'
+  },
+  nextButton: {
+    position: 'absolute',
+    alignSelf: 'center',
+    top: 180,
+    width: 300,
+    height: 50,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: '#65B307',
+    borderRadius: 10,
+  },
+  rectangle: {
+    position: 'absolute',
+    alignSelf: 'flex-start',
+    top: 50,
+    width: 250,
+    height: 2,
+    backgroundColor: '#84E509',
+    borderRadius: 20,
+    marginLeft: 30,
+  },
+  codeNotFound: {
+    position: 'absolute',
+    alignSelf: 'center',
+    marginLeft: 30,
+    top: 250,
+    color: '#C9FE87',
+    fontSize: 14,
+  },
+  enterCodeDesc: {
+    position: 'absolute',
+    alignSelf: 'flex-start',
+    marginLeft: 30,
+    top: 70,
+    color: 'white',
+    fontSize: 16,
+  },
   container: {
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
+    position: 'relative' // Optional: overlay to darken the image
   },
-  input: {
-      width: '80%',
-      height: 50,
-      margin: 12,
-      borderWidth: 1,
-      padding: 10,
-      paddingVertical: 10,
-      borderBottomColor: "#ccc"
+  homeText: {
+    color: "#fff",
+    fontFamily: 'ArialRoundedMTBold',
+    fontSize: 32,
+    alignSelf: 'flex-start',
+    marginLeft: 10
   },
-  text: {
-    textAlign: 'center',
-    fontSize: 20,
+  enterCodeText: {
+    color: "#E5FFC3",
+    position: 'absolute',
+    fontFamily: 'BalooExtraBold',
+    fontSize: 35,
+    alignSelf: 'flex-start',
+    marginLeft: 30,
   },
-  buttonContainer: {
-      width: '80%',
-      marginTop: 20
+  enterCodeTextLine: {
+    color: "#E5FFC3",
+    position: 'absolute',
+    top: 20,
+    fontFamily: 'BalooExtraBold',
+    fontSize: 35,
+    alignSelf: 'flex-start',
+    marginLeft: 30,
   },
-  bigText: {
-    textAlign: 'center',
-    fontSize: 40,
+  hortappDesc: {
+    color: "#8C9184",
+    fontFamily: 'Inter-Regular',
+    fontSize: 16,
+    alignSelf: 'flex-start',
+    marginLeft: 10
   },
+  googleButton: {
+    position: 'absolute',
+    alignSelf: 'center',
+    top: 75,
+    width: 300,
+    height: 50,
+    justifyContent: 'center',
+    alignItems: 'center'
+  },
+  nextText: {
+    color: "#fff",
+    fontFamily: 'Inter-SemiBold',
+    fontSize: 19,
+  },
+  logo: {
+    width: 200,
+    height: 200,
+    position: 'absolute',
+    top: 50, // Fix at the top of the container
+  },
+  footerButtons: {
+    position: 'absolute',
+    width: '100%',
+    backgroundColor: '#19240A',
+    padding: 10,
+    borderTopStartRadius: 25,
+    borderTopEndRadius: 25,
+    alignItems: 'center',
+    shadowColor: '#000',
+    height: 300,
+    bottom: 0
+  },
+  codeInput: {
+    position: 'absolute',
+    alignSelf: 'flex-start',
+    marginLeft: 29,
+    width: 300,
+    top: 100,
+    color: '#FFF',
+    backgroundColor: '#4A4A4A',
+    borderRadius: 10,
+    borderColor: '#FFF'
+  }
 });
 
 
