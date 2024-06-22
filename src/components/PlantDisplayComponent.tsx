@@ -36,7 +36,7 @@ type PlantName = keyof PlantData;
 const plants: PlantData = {
   Alecrim: { min_temp: 18, max_temp: 24, min_hum: 10, max_hum: 90, min_light: 2000, max_light: 3000 },
   Boldo: { min_temp: 18, max_temp: 24, min_hum: 50, max_hum: 90, min_light: 2000, max_light: 3000 },
-  Cebolinha: { min_temp: 18, max_temp: 25, min_hum: 50, max_hum: 90, min_light: 2000, max_light: 3000 },
+  Cebolinha: { min_temp: 18, max_temp: 24, min_hum: 50, max_hum: 90, min_light: 2000, max_light: 3000 },
   Coentro: { min_temp: 18, max_temp: 24, min_hum: 40, max_hum: 70, min_light: 1000, max_light: 2000 },
   Hortelã: { min_temp: 18, max_temp: 24, min_hum: 50, max_hum: 90, min_light: 1000, max_light: 2000 },
   Manjericão: { min_temp: 20, max_temp: 30, min_hum: 10, max_hum: 90, min_light: 2000, max_light: 3000 },
