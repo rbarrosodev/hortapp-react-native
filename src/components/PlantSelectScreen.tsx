@@ -43,7 +43,7 @@ type PlantSelectScreenProps = {
 
   
   const PlantSelectScreen: React.FC<PlantSelectScreenProps> = ({ route, navigation }) => {
-    const { gardenCode, previousValue, selectedLuminosity, userId } = route.params;
+    const { gardenCode, previousValue, selectedLuminosity, userId, plantNumber } = route.params;
     const [selectedItem, setSelectedItem] = previousValue ? useState(previousValue) : useState('Alecrim')
 
 
@@ -54,9 +54,9 @@ type PlantSelectScreenProps = {
     // Function to handle picker value change
     const handlePickerChange = async (itemValue) => {
       try {
-        const response = await axios.get("http://100.28.235.107/update_plant.php?garden_id=" + gardenCode + "&first_plant=" + itemValue);
+        const response = await axios.get("http://100.28.235.107/update_plant.php?garden_id=" + gardenCode + `&${plantNumber}=` + itemValue);
         console.log(response.data);
-        Alert.alert('Pronto!', 'Planta atualizada com sucesso! Aguarde alguns segundos para ver as mudanças.');
+        Alert.alert('Pronto!', 'Planta atualizada com sucesso! Aguarde até 1 minuto para ver as mudanças.');
         navigation.navigate('UserGardens', {userId: userId});
       } catch (error) {
         console.error('Error fetching data:', error);

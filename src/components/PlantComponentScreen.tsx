@@ -29,12 +29,14 @@ type PlantComponentScreenProps = {
 };
 
 const PlantComponentScreen: React.FC<PlantComponentScreenProps> = ({ route, navigation }) => {
-  const { plantData, gardenCode, userId } = route.params;
+  const { plantData, gardenCode, userId, gardenName } = route.params;
   const [selectedLuminosity, setSelectedLuminosity] = useState('any');
 
   const handlePlantLuminosityChange = (itemValue) => {
     setSelectedLuminosity(itemValue);
   };
+
+  console.log(plantData);
 
   return (
     <ImageBackground source={require('../../assets/hortapp-bg1.png')} style={styles.background}>
@@ -45,7 +47,7 @@ const PlantComponentScreen: React.FC<PlantComponentScreenProps> = ({ route, navi
         <TouchableOpacity style={styles.editTitleButton}>
           <FontAwesome6 name="pencil" size={24} color="white" />
         </TouchableOpacity>
-        <Text style={styles.gardenTitle}>Horta Cozinha 1</Text>
+        <Text style={styles.gardenTitle}>Horta {gardenName}</Text>
         <View style={styles.luminosityPicker}>
           <Picker selectedValue={selectedLuminosity} onValueChange={handlePlantLuminosityChange}>
             <Picker.Item label="Inserir nível de luminosidade" value="default" />
@@ -54,11 +56,34 @@ const PlantComponentScreen: React.FC<PlantComponentScreenProps> = ({ route, navi
             <Picker.Item label="Alto" value="high" />
           </Picker>
         </View>
-        <TouchableOpacity onPress={() => navigation.navigate('PlantSelect', {gardenCode: gardenCode, previousValue: plantData[0].first_plant, selectedLuminosity: selectedLuminosity, userId: userId})} style={styles.plantDisplayComponent}>
-          <PlantDisplayComponent vase_number={1} plant={plantData.length > 0 ? plantData[0].first_plant[0].toUpperCase() + plantData[0].first_plant.slice(1) : ''}
-                light_value={plantData.length > 0 ? plantData[0].light_value : ''} moisture_value={plantData.length > 0 ? plantData[0].first_plant_moisture_value : ''} temperature_value={plantData.length > 0 ? plantData[0].first_plant_temperature_value : ''}>
-          </PlantDisplayComponent>
-        </TouchableOpacity>
+
+        { plantData.second_plant == 'empty' || plantData.third_plant == 'empty' ? (
+          <TouchableOpacity onPress={() => navigation.navigate('PlantSelect', {gardenCode: gardenCode, previousValue: plantData.first_plant, selectedLuminosity: selectedLuminosity, userId: userId, plantNumber: 'first_plant'})} style={styles.plantDisplayComponent}>
+            <PlantDisplayComponent vase_number={1} plant={plantData.first_plant[0].toUpperCase() + plantData.first_plant.slice(1)}
+                  light_value={plantData.light_value} moisture_value={plantData.first_plant_moisture_value} temperature_value={plantData.first_plant_temperature_value}>
+            </PlantDisplayComponent>
+          </TouchableOpacity>
+        ) : (
+          <>
+          <TouchableOpacity onPress={() => navigation.navigate('PlantSelect', {gardenCode: gardenCode, previousValue: plantData.first_plant, selectedLuminosity: selectedLuminosity, userId: userId, plantNumber: 'first_plant'})} style={styles.plantDisplayComponent}>
+            <PlantDisplayComponent vase_number={1} plant={plantData.first_plant[0].toUpperCase() + plantData.first_plant.slice(1)}
+                  light_value={plantData.light_value} moisture_value={plantData.first_plant_moisture_value} temperature_value={plantData.first_plant_temperature_value}>
+            </PlantDisplayComponent>
+          </TouchableOpacity>
+
+          <TouchableOpacity onPress={() => navigation.navigate('PlantSelect', {gardenCode: gardenCode, previousValue: plantData.second_plant, selectedLuminosity: selectedLuminosity, userId: userId, plantNumber: 'second_plant'})} style={styles.plantDisplayComponentTwo}>
+            <PlantDisplayComponent vase_number={2} plant={plantData.second_plant[0].toUpperCase() + plantData.second_plant.slice(1)}
+                  light_value={plantData.light_value} moisture_value={plantData.second_plant_moisture_value} temperature_value={plantData.second_plant_temperature_value}>
+            </PlantDisplayComponent>
+          </TouchableOpacity>
+
+          <TouchableOpacity onPress={() => navigation.navigate('PlantSelect', {gardenCode: gardenCode, previousValue: plantData.third_plant, selectedLuminosity: selectedLuminosity, userId: userId, plantNumber: 'third_plant'})} style={styles.plantDisplayComponentThree}>
+            <PlantDisplayComponent vase_number={3} plant={plantData.third_plant[0].toUpperCase() + plantData.third_plant.slice(1)}
+                  light_value={plantData.light_value} moisture_value={plantData.third_plant_moisture_value} temperature_value={plantData.third_plant_temperature_value}>
+            </PlantDisplayComponent>
+          </TouchableOpacity>
+          </>
+        )}
 
         <View style={styles.footerButtons}>
           <TouchableOpacity onPress={() => navigation.navigate('UserGardens', {userId: userId})} style={styles.homeButton}>
@@ -84,6 +109,16 @@ const styles = StyleSheet.create({
     position: 'absolute',
     width: '100%',
     top: 0
+  },
+  plantDisplayComponentTwo: {
+    position: 'absolute',
+    width: '100%',
+    top: 150
+  },
+  plantDisplayComponentThree: {
+    position: 'absolute',
+    width: '100%',
+    top: 300
   },
   container: {
     flex: 1,

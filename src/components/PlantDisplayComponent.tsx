@@ -53,6 +53,7 @@ function getPlantData(plantName: PlantName) {
 
 
 const PlantDisplayComponent = ({ vase_number, plant, light_value, moisture_value, temperature_value }) => {
+  console.log('Planta: ', plant)
   const plantData = getPlantData(plant);
 
   return (
