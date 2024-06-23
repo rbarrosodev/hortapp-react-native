@@ -14,6 +14,7 @@ import FirstTimeOptionScreen from './src/components/FirstTimeOptionScreen';
 import UserGardensScreen from './src/components/UserGardensScreen';
 import KeepAwake from 'react-native-keep-awake'
 import PlantComponentScreen from './src/components/PlantComponentScreen';
+import ConnectionInstructionsScreen from './src/components/ConnectionInstructionsScreen';
 
 
 
@@ -38,6 +39,7 @@ function App() {
         <Stack.Screen name="Main" component={MainScreen} options={{ headerShown: false }} />
         <Stack.Screen name="Login" component={LoginScreen} options={{ headerShown: false }} />
         <Stack.Screen name="FirstTime" component={FirstTimeOptionScreen} options={{ headerShown: false }} />
+        <Stack.Screen name="ConnectionInstructions" component={ConnectionInstructionsScreen} options={{ headerShown: false }} />
         <Stack.Screen name="GardenCode" component={GardenCodeScreen} options={{ headerShown: false }} />
         <Stack.Screen name="UserGardens" component={UserGardensScreen} options={{ headerShown: false }} />
         <Stack.Screen name="PlantComponent" component={PlantComponentScreen} options={{ headerShown: false }} />

@@ -43,7 +43,7 @@ const FirstTimeOptionScreen: React.FC<FirstTimeOptionScreenProps> = ({ route, na
             checkUserGardens();
         }
         else {
-            Alert.alert('TODO');
+          navigation.navigate('ConnectionInstructions', {userId: userId});
         }
     };
     
@@ -60,7 +60,7 @@ const FirstTimeOptionScreen: React.FC<FirstTimeOptionScreenProps> = ({ route, na
         <View style={styles.container}>
             <Image source={require('../../assets/splash_logo.png')} style={styles.logo} />
             <View style={styles.footerButtons}>
-                <Text style={styles.titleText}>Já registrou o Wi-Fi da sua horta?</Text>
+                <Text style={styles.titleText}>Sua HortApp está {'\n'}conectada a internet?</Text>
                 <View style={styles.rectangle}></View>
                 <TouchableOpacity onPress={() => toggleStyle('yes')} style={[styles.yesCircle, dynamicYesStyle]}>
                     <Image source={require('../../assets/hortapp-logo-button.png')} style={styles.hortAppButton} />
@@ -91,7 +91,7 @@ const styles = StyleSheet.create({
   },
   yesCircle: {
     position: 'absolute',
-    top: 85,
+    top: 130,
     left: 40,
     width: 130,
     height: 130,
@@ -100,14 +100,14 @@ const styles = StyleSheet.create({
   yesCircleText: {
     position: 'absolute',
     fontFamily: 'BalooExtraBold',
-    top: 220,
+    top: 270,
     left: 75,
     color: '#A5EA4F',
     fontSize: 30
   },
   noCircle: {
     position: 'absolute',
-    top: 85,
+    top: 130,
     right: 40,
     width: 130,
     height: 130,
@@ -117,7 +117,7 @@ const styles = StyleSheet.create({
   noCircleText: {
     position: 'absolute',
     fontFamily: 'BalooExtraBold',
-    top: 220,
+    top: 270,
     right: 75,
     color: '#A5EA4F',
     fontSize: 30
@@ -125,7 +125,7 @@ const styles = StyleSheet.create({
   nextButton: {
     position: 'absolute',
     alignSelf: 'center',
-    top: 300,
+    top: 335,
     width: 300,
     height: 50,
     justifyContent: 'center',
@@ -136,9 +136,9 @@ const styles = StyleSheet.create({
   rectangle: {
     position: 'absolute',
     alignSelf: 'flex-start',
-    top: 50,
-    width: 250,
-    height: 2,
+    top: 90,
+    width: 195,
+    height: 3,
     backgroundColor: '#84E509',
     borderRadius: 20,
     marginLeft: 30,
@@ -176,7 +176,7 @@ const styles = StyleSheet.create({
     color: "#E5FFC3",
     position: 'absolute',
     fontFamily: 'BalooExtraBold',
-    fontSize: 22,
+    fontSize: 25,
     alignSelf: 'flex-start',
     marginLeft: 30,
     marginTop: 12
@@ -226,7 +226,7 @@ const styles = StyleSheet.create({
     borderTopEndRadius: 25,
     alignItems: 'center',
     shadowColor: '#000',
-    height: 400,
+    height: 425,
     bottom: 0
   },
   codeInput: {
