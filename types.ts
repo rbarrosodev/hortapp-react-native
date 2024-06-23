@@ -9,6 +9,7 @@ export type RootStackParamList = {
     GardenSelect: undefined; 
     GardenCode: userId;
     GardenPlants: gardenCode;
-    PlantComponent: plantData, gardenCode, userId;
-    PlantSelect: gardenCode, previousValue, selectedLuminosity, userId; // Add more screen names and their expected parameters here if needed
+    PlantComponent: plantData, gardenCode, userId, gardenName;
+    PlantSelect: gardenCode, previousValue, selectedLuminosity, userId, plantNumber;
+    ConnectionInstructions: userId; // Add more screen names and their expected parameters here if needed
   };
