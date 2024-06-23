@@ -90,7 +90,7 @@ const UserGardensScreen: React.FC<UserGardensScreenProps> = ({ route, navigation
     fetchData();
 
     // Fetch data every 1 minute
-    const interval = setInterval(fetchData, 10000);
+    const interval = setInterval(fetchData, 100000);
 
     // Clean up interval to avoid memory leaks
     return () => clearInterval(interval);
@@ -213,7 +213,10 @@ const UserGardensScreen: React.FC<UserGardensScreenProps> = ({ route, navigation
                     ) : data[1].first_plant_moisture_value < getPlantData(data[1].first_plant[0].toUpperCase() + data[1].first_plant.slice(1)).min_hum ? (
                       <Text style={styles.waterIconTwo}><FontAwesome6 name="droplet" size={16} color="#B30707" /> Baixa</Text>
                     ) : data[1].first_plant_moisture_value > getPlantData(data[1].first_plant[0].toUpperCase() + data[1].first_plant.slice(1)).max_hum ? (
-                      <Text style={styles.waterIconTwo}><FontAwesome6 name="droplet" size={16} color="#B30707" /> Alta</Text>
+                      <View style={styles.waterIconView}>
+                        <FontAwesome6 style={styles.waterIconTwo} name="droplet" size={16} color="#B30707" />
+                        <Text style={styles.waterIconHighText}>Alta</Text>
+                      </View>
                     ) : (
                       <>
                       <Text style={styles.waterIconTwo}>
@@ -228,7 +231,10 @@ const UserGardensScreen: React.FC<UserGardensScreenProps> = ({ route, navigation
                     ) : data[1].first_plant_temperature_value < getPlantData(data[1].first_plant[0].toUpperCase() + data[1].first_plant.slice(1)).min_temp ? (
                       <Text style={styles.temperatureIconTwo}><FontAwesome6 name="temperature-full" size={16} color="#B30707" /> Baixa</Text>
                     ) : data[1].first_plant_temperature_value > getPlantData(data[1].first_plant[0].toUpperCase() + data[1].first_plant.slice(1)).max_temp ? (
-                      <Text style={styles.temperatureIconTwo}><FontAwesome6 name="temperature-full" size={16} color="#B30707" /> Alta</Text>
+                      <View style={styles.temperatureIconView}>
+                        <FontAwesome6 style={styles.temperatureIconTwo} name="temperature-full" size={16} color="#B30707" />
+                        <Text style={styles.temperatureIconHighText}>Alta</Text>
+                      </View>
                     ) : (
                       <>
                       <Text style={styles.temperatureIconTwo}>
@@ -261,7 +267,10 @@ const UserGardensScreen: React.FC<UserGardensScreenProps> = ({ route, navigation
                     ) : data[1].second_plant_moisture_value < getPlantData(data[1].second_plant[0].toUpperCase() + data[1].second_plant.slice(1)).min_hum ? (
                       <Text style={styles.waterIconTwo}><FontAwesome6 name="droplet" size={16} color="#B30707" /> Baixa</Text>
                     ) : data[1].second_plant_moisture_value > getPlantData(data[1].second_plant[0].toUpperCase() + data[1].second_plant.slice(1)).max_hum ? (
-                      <Text style={styles.waterIconTwo}><FontAwesome6 name="droplet" size={16} color="#B30707" /> Alta</Text>
+                      <View style={styles.waterIconView}>
+                        <FontAwesome6 style={styles.waterIconTwo} name="droplet" size={16} color="#B30707" />
+                        <Text style={styles.waterIconHighText}>Alta</Text>
+                      </View>
                     ) : (
                       <>
                       <Text style={styles.waterIconTwo}>
@@ -407,6 +416,28 @@ const styles = StyleSheet.create({
     alignSelf: 'flex-start',
     marginTop: 5,
   },
+  waterIconHighText: {
+    position: 'absolute',
+    left: 17,
+    alignItems: 'center',
+    alignSelf: 'flex-start',
+    marginTop: 4
+  },
+  waterIconView: {
+    display: 'flex',
+    flexDirection: 'row',
+  },
+  temperatureIconHighText: {
+    position: 'absolute',
+    left: 17,
+    alignItems: 'center',
+    alignSelf: 'flex-start',
+    marginTop: 3
+  },
+  temperatureIconView: {
+    display: 'flex',
+    flexDirection: 'row',
+  },
   waterText: {
     position: 'absolute',
     left: 18,
@@ -421,12 +452,13 @@ const styles = StyleSheet.create({
   temperatureIconTwo: {
     alignItems: 'center',
     alignSelf: 'flex-start',
+    marginTop: 4,
     marginLeft: 0.5
   },
   temperatureText: {
     position: 'absolute',
     left: 18,
-    top: 41
+    top: 39
   },
   plusIcon: {
     position: 'absolute',
