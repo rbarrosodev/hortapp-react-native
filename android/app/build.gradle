@@ -92,9 +92,9 @@ android {
         }
         release {
             storeFile file('hortapp.keystore')
-            storePassword 'digorbr910'
+            storePassword 'digorbr123'
             keyAlias 'hortapp'
-            keyPassword 'digorbr910'
+            keyPassword 'digorbr123'
         }
     }
     buildTypes {
@@ -104,9 +104,10 @@ android {
         release {
             // Caution! In production, you need to generate your own keystore file.
             // see https://reactnative.dev/docs/signed-apk-android.
+            minifyEnabled false
             signingConfig signingConfigs.release
-            minifyEnabled enableProguardInReleaseBuilds
-            proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro"
+            //minifyEnabled enableProguardInReleaseBuilds
+            //proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro"
         }
     }
 
