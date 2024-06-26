@@ -66,7 +66,7 @@ const PlantDisplayComponent = ({ vase_number, plant, light_value, moisture_value
           <Text style={styles.title}>Vaso {vase_number}: 
           </Text>
         ) : (
-          <Text style={styles.title}>Vaso {vase_number}:<Text style={styles.plantName}> {plant[6] == 'C' ? 'Tomate Cereja' : plant}</Text></Text>
+          <Text style={styles.title}>Vaso {vase_number}:<Text style={styles.plantName}> {plant[6] == 'C' ? 'T. Cereja' : plant}</Text></Text>
         )}
         <View style={styles.infoRow}>
           {light_value <= 0.0 || light_value == "" ? (
@@ -319,7 +319,7 @@ const styles = StyleSheet.create({
     height: 16, 
   },
   plantName: {
-    fontSize: 20,
+    fontSize: 19,
     color: '#19240A',
     fontWeight: "400"
   },
