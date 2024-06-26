@@ -89,8 +89,8 @@ const UserGardensScreen: React.FC<UserGardensScreenProps> = ({ route, navigation
     // Initial data fetch
     fetchData();
 
-    // Fetch data every 1 minute
-    const interval = setInterval(fetchData, 100000);
+    // Fetch data every 15 seconds
+    const interval = setInterval(fetchData, 15000);
 
     // Clean up interval to avoid memory leaks
     return () => clearInterval(interval);
