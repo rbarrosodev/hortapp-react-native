@@ -46,7 +46,7 @@ const LoginScreen: React.FC<LoginScreenProps> = ({ navigation }) => {
     
       // Sign-in the user with the credential
       auth().signInWithCredential(googleCredential);
-
+      
       checkUserGardens(user.id);
     } catch (error) {
       console.log(error);

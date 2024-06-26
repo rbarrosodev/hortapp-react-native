@@ -22,6 +22,14 @@
           }
         },
         {
+          "client_id": "311266848901-os808vufrju7sjuuf70dh9mqffaafk8h.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.hortapp",
+            "certificate_hash": "03c484a8835041772a5f878de23884908b78154d"
+          }
+        },
+        {
           "client_id": "311266848901-7aolmkfau36j3geuao1mtoddisgecrbq.apps.googleusercontent.com",
           "client_type": 3
         }
