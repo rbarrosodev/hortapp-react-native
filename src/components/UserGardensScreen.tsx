@@ -89,8 +89,8 @@ const UserGardensScreen: React.FC<UserGardensScreenProps> = ({ route, navigation
     // Initial data fetch
     fetchData();
 
-    // Fetch data every 1 minute
-    const interval = setInterval(fetchData, 10000);
+    // Fetch data every 15 seconds
+    const interval = setInterval(fetchData, 15000);
 
     // Clean up interval to avoid memory leaks
     return () => clearInterval(interval);
@@ -194,47 +194,92 @@ const UserGardensScreen: React.FC<UserGardensScreenProps> = ({ route, navigation
                   <Image source={images[data[1].first_plant[0].toUpperCase() + data[1].first_plant.slice(1)]} style={styles.plantImageOneSecondGarden} />
                   <View style={styles.plantOneMeasures}>
                     {data[1].light_value <= 0.0 || data[1].light_value == "" ? (
-                      <Text style={styles.sunIconTwo}><FontAwesome6 name="sun" size={16} color="#808080" /> Indisp.</Text>
+                      <>
+                      <View style={styles.waterIconViewThird}>
+                        <FontAwesome6 style={styles.waterIconThird} name="sun" size={16} color="#808080" />
+                        <Text style={styles.waterIconHighTextThird}>Indisp.</Text>
+                      </View>
+                      </>
                     ) : data[1].light_value < getPlantData(data[1].first_plant[0].toUpperCase() + data[1].first_plant.slice(1)).min_light ? (
-                      <Text style={styles.sunIconTwo}><FontAwesome6 name="sun" size={16} color="#B30707" /> Baixa</Text>
+                      <>
+                      <View style={styles.waterIconViewThird}>
+                        <FontAwesome6 style={styles.waterIconThird} name="sun" size={16} color="#B30707" />
+                        <Text style={styles.waterIconHighTextThird}>Baixa</Text>
+                      </View>
+                      </>
                     ) : data[1].light_value > getPlantData(data[1].first_plant[0].toUpperCase() + data[1].first_plant.slice(1)).max_light ? (
-                      <Text style={styles.sunIconTwo}><FontAwesome6 name="sun" size={16} color="#B30707" /> Alta</Text>
+                      <>
+                      <View style={styles.waterIconViewThird}>
+                        <FontAwesome6 style={styles.waterIconThird} name="sun" size={16} color="#B30707" />
+                        <Text style={styles.waterIconHighTextThird}>Alta</Text>
+                      </View>
+                      </>
                     ) : (
                       <>
-                      <Text style={styles.sunIconTwo}>
-                        <FontAwesome6 name="sun" size={16} color="#3B6603" />
-                      </Text>
-                      <Text style={styles.sunText}>Ideal</Text>
+                      <View style={styles.waterIconViewThird}>
+                        <FontAwesome6 style={styles.waterIconThird} name="sun" size={16} color="#3B6603" />
+                        <Text style={styles.waterIconHighTextThird}>Ideal</Text>
+                      </View>
                       </>
                     )}
 
                     {data[1].first_plant_moisture_value <= 0.0 || data[1].first_plant_moisture_value == "" ? (
-                      <Text style={styles.waterIconTwo}><FontAwesome6 name="droplet" size={16} color="#808080" /> Indisp.</Text>
+                      <>
+                      <View style={styles.waterIconViewThird}>
+                        <FontAwesome6 style={styles.waterIconThird} name="droplet" size={16} color="#808080" />
+                        <Text style={styles.waterIconHighTextThird}>Indisp.</Text>
+                      </View>
+                      </>
                     ) : data[1].first_plant_moisture_value < getPlantData(data[1].first_plant[0].toUpperCase() + data[1].first_plant.slice(1)).min_hum ? (
-                      <Text style={styles.waterIconTwo}><FontAwesome6 name="droplet" size={16} color="#B30707" /> Baixa</Text>
+                      <>
+                      <View style={styles.waterIconViewThird}>
+                        <FontAwesome6 style={styles.waterIconThird} name="droplet" size={16} color="#B30707" />
+                        <Text style={styles.waterIconHighTextThird}>Baixa</Text>
+                      </View>
+                      </>
                     ) : data[1].first_plant_moisture_value > getPlantData(data[1].first_plant[0].toUpperCase() + data[1].first_plant.slice(1)).max_hum ? (
-                      <Text style={styles.waterIconTwo}><FontAwesome6 name="droplet" size={16} color="#B30707" /> Alta</Text>
+                      <>
+                      <View style={styles.waterIconViewThird}>
+                        <FontAwesome6 style={styles.waterIconThird} name="droplet" size={16} color="#B30707" />
+                        <Text style={styles.waterIconHighTextThird}>Alta</Text>
+                      </View>
+                      </>
                     ) : (
                       <>
-                      <Text style={styles.waterIconTwo}>
-                        <FontAwesome6 name="droplet" size={16} color="#3B6603" />
-                      </Text>
-                      <Text style={styles.waterText}>Ideal</Text>
+                      <View style={styles.waterIconViewThird}>
+                        <FontAwesome6 style={styles.waterIconThird} name="droplet" size={16} color="#3B6603" />
+                        <Text style={styles.waterIconHighTextThird}>Ideal</Text>
+                      </View>
                       </>
                     )}
 
                     {data[1].first_plant_temperature_value <= 0.0 || data[1].first_plant_temperature_value == "" ? (
-                      <Text style={styles.temperatureIconTwo}><FontAwesome6 name="temperature-full" size={16} color="#808080" /> Indisp.</Text>
+                      <>
+                      <View style={styles.waterIconViewThird}>
+                        <FontAwesome6 style={styles.waterIconFourth} name="temperature-full" size={16} color="#808080" />
+                        <Text style={styles.waterIconHighTextThird}>Indisp.</Text>
+                      </View>
+                      </>
                     ) : data[1].first_plant_temperature_value < getPlantData(data[1].first_plant[0].toUpperCase() + data[1].first_plant.slice(1)).min_temp ? (
-                      <Text style={styles.temperatureIconTwo}><FontAwesome6 name="temperature-full" size={16} color="#B30707" /> Baixa</Text>
+                      <>
+                      <View style={styles.waterIconViewThird}>
+                        <FontAwesome6 style={styles.waterIconFourth} name="temperature-full" size={16} color="#B30707" />
+                        <Text style={styles.waterIconHighTextThird}>Baixa</Text>
+                      </View>
+                      </>
                     ) : data[1].first_plant_temperature_value > getPlantData(data[1].first_plant[0].toUpperCase() + data[1].first_plant.slice(1)).max_temp ? (
-                      <Text style={styles.temperatureIconTwo}><FontAwesome6 name="temperature-full" size={16} color="#B30707" /> Alta</Text>
+                      <>
+                      <View style={styles.waterIconViewThird}>
+                        <FontAwesome6 style={styles.waterIconFourth} name="temperature-full" size={16} color="#B30707" />
+                        <Text style={styles.waterIconHighTextThird}>Alta</Text>
+                      </View>
+                      </>
                     ) : (
                       <>
-                      <Text style={styles.temperatureIconTwo}>
-                        <FontAwesome6 name="temperature-full" size={16} color="#3B6603" />
-                      </Text>
-                      <Text style={styles.temperatureText}>Ideal</Text>
+                      <View style={styles.waterIconViewThird}>
+                        <FontAwesome6 style={styles.waterIconFourth} name="temperature-full" size={16} color="#3B6603" />
+                        <Text style={styles.waterIconHighTextThird}>Ideal</Text>
+                      </View>
                       </>
                     )}
                   </View>
@@ -242,47 +287,92 @@ const UserGardensScreen: React.FC<UserGardensScreenProps> = ({ route, navigation
                   <Image source={images[data[1].second_plant[0].toUpperCase() + data[1].second_plant.slice(1)]} style={styles.plantImageTwoSecondGarden} />
                   <View style={styles.plantTwoMeasures}>
                     {data[1].light_value <= 0.0 || data[1].light_value == "" ? (
-                      <Text style={styles.sunIconTwo}><FontAwesome6 name="sun" size={16} color="#808080" /> Indisp.</Text>
+                      <>
+                      <View style={styles.waterIconViewThird}>
+                        <FontAwesome6 style={styles.waterIconThird} name="sun" size={16} color="#808080" />
+                        <Text style={styles.waterIconHighTextThird}>Indisp.</Text>
+                      </View>
+                      </>
                     ) : data[1].light_value < getPlantData(data[1].second_plant[0].toUpperCase() + data[1].second_plant.slice(1)).min_light ? (
-                      <Text style={styles.sunIconTwo}><FontAwesome6 name="sun" size={16} color="#B30707" /> Baixa</Text>
+                      <>
+                      <View style={styles.waterIconViewThird}>
+                        <FontAwesome6 style={styles.waterIconThird} name="sun" size={16} color="#B30707" />
+                        <Text style={styles.waterIconHighTextThird}>Baixa</Text>
+                      </View>
+                      </>
                     ) : data[1].light_value > getPlantData(data[1].second_plant[0].toUpperCase() + data[1].second_plant.slice(1)).max_light ? (
-                      <Text style={styles.sunIconTwo}><FontAwesome6 name="sun" size={16} color="#B30707" /> Alta</Text>
+                      <>
+                      <View style={styles.waterIconViewThird}>
+                        <FontAwesome6 style={styles.waterIconThird} name="sun" size={16} color="#B30707" />
+                        <Text style={styles.waterIconHighTextThird}>Alta</Text>
+                      </View>
+                      </>
                     ) : (
                       <>
-                      <Text style={styles.sunIconTwo}>
-                        <FontAwesome6 name="sun" size={16} color="#3B6603" />
-                      </Text>
-                      <Text style={styles.sunText}>Ideal</Text>
+                      <View style={styles.waterIconViewThird}>
+                        <FontAwesome6 style={styles.waterIconThird} name="sun" size={16} color="#3B6603" />
+                        <Text style={styles.waterIconHighTextThird}>Ideal</Text>
+                      </View>
                       </>
                     )}
 
                     {data[1].second_plant_moisture_value <= 0.0 || data[1].second_plant_moisture_value == "" ? (
-                      <Text style={styles.waterIconTwo}><FontAwesome6 name="droplet" size={16} color="#808080" /> Indisp.</Text>
+                      <>
+                      <View style={styles.waterIconViewThird}>
+                        <FontAwesome6 style={styles.waterIconThird} name="droplet" size={16} color="#808080" />
+                        <Text style={styles.waterIconHighTextThird}>Indisp.</Text>
+                      </View>
+                      </>
                     ) : data[1].second_plant_moisture_value < getPlantData(data[1].second_plant[0].toUpperCase() + data[1].second_plant.slice(1)).min_hum ? (
-                      <Text style={styles.waterIconTwo}><FontAwesome6 name="droplet" size={16} color="#B30707" /> Baixa</Text>
+                      <>
+                      <View style={styles.waterIconViewThird}>
+                        <FontAwesome6 style={styles.waterIconThird} name="droplet" size={16} color="#B30707" />
+                        <Text style={styles.waterIconHighTextThird}>Baixa</Text>
+                      </View>
+                      </>
                     ) : data[1].second_plant_moisture_value > getPlantData(data[1].second_plant[0].toUpperCase() + data[1].second_plant.slice(1)).max_hum ? (
-                      <Text style={styles.waterIconTwo}><FontAwesome6 name="droplet" size={16} color="#B30707" /> Alta</Text>
+                      <>
+                      <View style={styles.waterIconViewThird}>
+                        <FontAwesome6 style={styles.waterIconThird} name="droplet" size={16} color="#B30707" />
+                        <Text style={styles.waterIconHighTextThird}>Alta</Text>
+                      </View>
+                      </>
                     ) : (
                       <>
-                      <Text style={styles.waterIconTwo}>
-                        <FontAwesome6 name="droplet" size={16} color="#3B6603" />
-                      </Text>
-                      <Text style={styles.waterText}>Ideal</Text>
+                      <View style={styles.waterIconViewThird}>
+                        <FontAwesome6 style={styles.waterIconThird} name="droplet" size={16} color="#3B6603" />
+                        <Text style={styles.waterIconHighTextThird}>Ideal</Text>
+                      </View>
                       </>
                     )}
 
                     {data[1].second_plant_temperature_value <= 0.0 || data[1].second_plant_temperature_value == "" ? (
-                      <Text style={styles.temperatureIconTwo}><FontAwesome6 name="temperature-full" size={16} color="#808080" /> Indisp.</Text>
+                      <>
+                      <View style={styles.waterIconViewThird}>
+                        <FontAwesome6 style={styles.waterIconFourth} name="temperature-full" size={16} color="#808080" />
+                        <Text style={styles.waterIconHighTextThird}>Indisp.</Text>
+                      </View>
+                      </>
                     ) : data[1].second_plant_temperature_value < getPlantData(data[1].second_plant[0].toUpperCase() + data[1].second_plant.slice(1)).min_temp ? (
-                      <Text style={styles.temperatureIconTwo}><FontAwesome6 name="temperature-full" size={16} color="#B30707" /> Baixa</Text>
+                      <>
+                      <View style={styles.waterIconViewThird}>
+                        <FontAwesome6 style={styles.waterIconFourth} name="temperature-full" size={16} color="#B30707" />
+                        <Text style={styles.waterIconHighTextThird}>Baixa</Text>
+                      </View>
+                      </>
                     ) : data[1].second_plant_temperature_value > getPlantData(data[1].second_plant[0].toUpperCase() + data[1].second_plant.slice(1)).max_temp ? (
-                      <Text style={styles.temperatureIconTwo}><FontAwesome6 name="temperature-full" size={16} color="#B30707" /> Alta</Text>
+                      <>
+                      <View style={styles.waterIconViewThird}>
+                        <FontAwesome6 style={styles.waterIconFourth} name="temperature-full" size={16} color="#B30707" />
+                        <Text style={styles.waterIconHighTextThird}>Alta</Text>
+                      </View>
+                      </>
                     ) : (
                       <>
-                      <Text style={styles.temperatureIconTwo}>
-                        <FontAwesome6 name="temperature-full" size={16} color="#3B6603" />
-                      </Text>
-                      <Text style={styles.temperatureText}>Ideal</Text>
+                      <View style={styles.waterIconViewThird}>
+                        <FontAwesome6 style={styles.waterIconFourth} name="temperature-full" size={16} color="#3B6603" />
+                        <Text style={styles.waterIconHighTextThird}>Ideal</Text>
+                      </View>
                       </>
                     )}
                   </View>
@@ -290,47 +380,92 @@ const UserGardensScreen: React.FC<UserGardensScreenProps> = ({ route, navigation
                   <Image source={images[data[1].third_plant[0].toUpperCase() + data[1].third_plant.slice(1)]} style={styles.plantImageThreeSecondGarden} />
                   <View style={styles.plantThreeMeasures}>
                     {data[1].light_value <= 0.0 || data[1].light_value == "" ? (
-                      <Text style={styles.sunIconTwo}><FontAwesome6 name="sun" size={16} color="#808080" /> Indisp.</Text>
+                      <>
+                      <View style={styles.waterIconViewThird}>
+                        <FontAwesome6 style={styles.waterIconThird} name="sun" size={16} color="#808080" />
+                        <Text style={styles.waterIconHighTextThird}>Indisp.</Text>
+                      </View>
+                      </>
                     ) : data[1].light_value < getPlantData(data[1].third_plant[0].toUpperCase() + data[1].third_plant.slice(1)).min_light ? (
-                      <Text style={styles.sunIconTwo}><FontAwesome6 name="sun" size={16} color="#B30707" /> Baixa</Text>
+                      <>
+                      <View style={styles.waterIconViewThird}>
+                        <FontAwesome6 style={styles.waterIconThird} name="sun" size={16} color="#B30707" />
+                        <Text style={styles.waterIconHighTextThird}>Baixa</Text>
+                      </View>
+                      </>
                     ) : data[1].light_value > getPlantData(data[1].third_plant[0].toUpperCase() + data[1].third_plant.slice(1)).max_light ? (
-                      <Text style={styles.sunIconTwo}><FontAwesome6 name="sun" size={16} color="#B30707" /> Alta</Text>
+                      <>
+                      <View style={styles.waterIconViewThird}>
+                        <FontAwesome6 style={styles.waterIconThird} name="sun" size={16} color="#B30707" />
+                        <Text style={styles.waterIconHighTextThird}>Alta</Text>
+                      </View>
+                      </>
                     ) : (
                       <>
-                      <Text style={styles.sunIconTwo}>
-                        <FontAwesome6 name="sun" size={16} color="#3B6603" />
-                      </Text>
-                      <Text style={styles.sunText}>Ideal</Text>
+                      <View style={styles.waterIconViewThird}>
+                        <FontAwesome6 style={styles.waterIconThird} name="sun" size={16} color="#3B6603" />
+                        <Text style={styles.waterIconHighTextThird}>Ideal</Text>
+                      </View>
                       </>
                     )}
 
                     {data[1].third_plant_moisture_value <= 0.0 || data[1].third_plant_moisture_value == "" ? (
-                      <Text style={styles.waterIconTwo}><FontAwesome6 name="droplet" size={16} color="#808080" /> Indisp.</Text>
+                      <>
+                      <View style={styles.waterIconViewThird}>
+                        <FontAwesome6 style={styles.waterIconFourth} name="droplet" size={16} color="#808080" />
+                        <Text style={styles.waterIconHighTextThird}>Indisp.</Text>
+                      </View>
+                      </>
                     ) : data[1].third_plant_moisture_value < getPlantData(data[1].third_plant[0].toUpperCase() + data[1].third_plant.slice(1)).min_hum ? (
-                      <Text style={styles.waterIconTwo}><FontAwesome6 name="droplet" size={16} color="#B30707" /> Baixa</Text>
+                      <>
+                      <View style={styles.waterIconViewThird}>
+                        <FontAwesome6 style={styles.waterIconFourth} name="droplet" size={16} color="#B30707" />
+                        <Text style={styles.waterIconHighTextThird}>Baixa</Text>
+                      </View>
+                      </>
                     ) : data[1].third_plant_moisture_value > getPlantData(data[1].third_plant[0].toUpperCase() + data[1].third_plant.slice(1)).max_hum ? (
-                      <Text style={styles.waterIconTwo}><FontAwesome6 name="droplet" size={16} color="#B30707" /> Alta</Text>
+                      <>
+                      <View style={styles.waterIconViewThird}>
+                        <FontAwesome6 style={styles.waterIconFourth} name="droplet" size={16} color="#B30707" />
+                        <Text style={styles.waterIconHighTextThird}>Alta</Text>
+                      </View>
+                      </>
                     ) : (
                       <>
-                      <Text style={styles.waterIconTwo}>
-                        <FontAwesome6 name="droplet" size={16} color="#3B6603" />
-                      </Text>
-                      <Text style={styles.waterText}>Ideal</Text>
+                      <View style={styles.waterIconViewThird}>
+                        <FontAwesome6 style={styles.waterIconFourth} name="droplet" size={16} color="#3B6603" />
+                        <Text style={styles.waterIconHighTextThird}>Ideal</Text>
+                      </View>
                       </>
                     )}
 
                     {data[1].third_plant_temperature_value <= 0.0 || data[1].third_plant_temperature_value == "" ? (
-                      <Text style={styles.temperatureIconTwo}><FontAwesome6 name="temperature-full" size={16} color="#808080" /> Indisp.</Text>
+                      <>
+                      <View style={styles.waterIconViewThird}>
+                        <FontAwesome6 style={styles.waterIconFourth} name="temperature-full" size={16} color="#808080" />
+                        <Text style={styles.waterIconHighTextThird}>Indisp.</Text>
+                      </View>
+                      </>
                     ) : data[1].third_plant_temperature_value < getPlantData(data[1].third_plant[0].toUpperCase() + data[1].third_plant.slice(1)).min_temp ? (
-                      <Text style={styles.temperatureIconTwo}><FontAwesome6 name="temperature-full" size={16} color="#B30707" /> Baixa</Text>
+                      <>
+                      <View style={styles.waterIconViewThird}>
+                        <FontAwesome6 style={styles.waterIconFourth} name="temperature-full" size={16} color="#B30707" />
+                        <Text style={styles.waterIconHighTextThird}>Baixa</Text>
+                      </View>
+                      </>
                     ) : data[1].third_plant_temperature_value > getPlantData(data[1].third_plant[0].toUpperCase() + data[1].third_plant.slice(1)).max_temp ? (
-                      <Text style={styles.temperatureIconTwo}><FontAwesome6 name="temperature-full" size={16} color="#B30707" /> Alta</Text>
+                      <>
+                      <View style={styles.waterIconViewThird}>
+                        <FontAwesome6 style={styles.waterIconFourth} name="temperature-full" size={16} color="#B30707" />
+                        <Text style={styles.waterIconHighTextThird}>Alta</Text>
+                      </View>
+                      </>
                     ) : (
                       <>
-                      <Text style={styles.temperatureIconTwo}>
-                        <FontAwesome6 name="temperature-full" size={16} color="#3B6603" />
-                      </Text>
-                      <Text style={styles.temperatureText}>Ideal</Text>
+                      <View style={styles.waterIconViewThird}>
+                        <FontAwesome6 style={styles.waterIconFourth} name="temperature-full" size={16} color="#3B6603" />
+                        <Text style={styles.waterIconHighTextThird}>Ideal</Text>
+                      </View>
                       </>
                     )}
                   </View>
@@ -407,6 +542,53 @@ const styles = StyleSheet.create({
     alignSelf: 'flex-start',
     marginTop: 5,
   },
+  waterIconHighText: {
+    position: 'absolute',
+    left: 17,
+    alignItems: 'center',
+    alignSelf: 'flex-start',
+    marginTop: 4
+  },
+  waterIconThird: {
+    alignItems: 'center',
+    alignSelf: 'center',
+    marginTop: 5,
+    top: -4
+  },
+  waterIconFourth: {
+    alignItems: 'center',
+    alignSelf: 'center',
+    marginTop: 5,
+    marginLeft: 1.5,
+    top: -4
+  },
+  waterIconHighTextThird: {
+    position: 'absolute',
+    left: 19,
+    alignItems: 'center',
+    alignSelf: 'flex-start',
+    marginTop: 0
+  },
+  waterIconView: {
+    display: 'flex',
+    flexDirection: 'row',
+  },
+  waterIconViewThird: {
+    display: 'flex',
+    flexDirection: 'row',
+    marginRight: 40
+  },
+  temperatureIconHighText: {
+    position: 'absolute',
+    left: 17,
+    alignItems: 'center',
+    alignSelf: 'flex-start',
+    marginTop: 3
+  },
+  temperatureIconView: {
+    display: 'flex',
+    flexDirection: 'row',
+  },
   waterText: {
     position: 'absolute',
     left: 18,
@@ -421,12 +603,13 @@ const styles = StyleSheet.create({
   temperatureIconTwo: {
     alignItems: 'center',
     alignSelf: 'flex-start',
+    marginTop: 4,
     marginLeft: 0.5
   },
   temperatureText: {
     position: 'absolute',
     left: 18,
-    top: 41
+    top: 39
   },
   plusIcon: {
     position: 'absolute',

@@ -171,9 +171,9 @@ type PlantSelectScreenProps = {
                   </View>
                 </TouchableOpacity>
 
-                <TouchableOpacity onPress={() => handleSelectedPlant('tomate_cereja')} style={styles.alecrimRect}>
+                <TouchableOpacity onPress={() => handleSelectedPlant('tomateCereja')} style={styles.alecrimRect}>
                   <View style={styles.alecrimIconContainer}>
-                    {selectedItem == 'tomate_cereja' ? (
+                    {selectedItem == 'tomateCereja' ? (
                       <Image source={images['TomateCereja']} style={styles.alecrimIcon} />
                     ) : (
                       <Image source={images['TomateCerejaGray']} style={styles.alecrimIcon} />
@@ -278,9 +278,9 @@ type PlantSelectScreenProps = {
                 </View>
               </TouchableOpacity>
 
-              <TouchableOpacity onPress={() => handleSelectedPlant('tomate_cereja')} style={styles.alecrimRect}>
+              <TouchableOpacity onPress={() => handleSelectedPlant('tomateCereja')} style={styles.alecrimRect}>
                 <View style={styles.alecrimIconContainer}>
-                  {selectedItem == 'tomate_cereja' ? (
+                  {selectedItem == 'tomateCereja' ? (
                     <Image source={images['TomateCereja']} style={styles.alecrimIcon} />
                   ) : (
                     <Image source={images['TomateCerejaGray']} style={styles.alecrimIcon} />
