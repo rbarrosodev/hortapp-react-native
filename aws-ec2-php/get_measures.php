@@ -28,14 +28,19 @@ $stmt->execute();
 $result = $stmt->get_result();
 
 if ($result->num_rows > 0) {
-    // Output data of each row
+    // Fetch all rows into an array
+    $rows = array();
     while($row = $result->fetch_assoc()) {
-        echo "Garden ID: " . $row["garden_id"]. " - Timestamp: " . $row["timestamp"]. "<br>"; // Replace column_name with the actual name of your column
+        $rows[] = $row;
     }
+    // Encode the array as JSON and echo it
+    echo json_encode($rows);
 } else {
+    // Set HTTP response code to indicate not found
     http_response_code(404);
 }
 
 // Close connection
 $stmt->close();
 $conn->close();
+?>
